@@ -191,7 +191,7 @@ public class ListaDueño extends SubMenu {
 	}
 
 	private void acciónModificarDueño(Dueño dueño) {
-		String cabecera = "#%s:\n";
+		String cabecera = "# %s:\n";
 		String formatoAnterior = "Valor anterior: %s\n";
 
 		System.out.printf(cabecera, "Nombre");
@@ -210,7 +210,7 @@ public class ListaDueño extends SubMenu {
 		String dirección = sc.nextLine();
 
 		// TODO agregar los atributos que faltan por preguntar
-
+		// TODO cambiar isEmpty por isBlank
 		if (!nombre.isEmpty())
 			dueño.setNombre(nombre);
 		if (!teléfono.isEmpty())

@@ -4,11 +4,9 @@ import veterinaria.entidades.Dueño;
 import veterinaria.entidades.Mascota;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 import static veterinaria.utiles.Utiles.maximaLongitudMascotas;
 
@@ -35,7 +33,7 @@ public class ListaMascota extends SubMenu {
             """;
     private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private Dueño dueño;
+    private final Dueño dueño;
 
     public ListaMascota(Scanner sc, String formatoPrompt, String waiting, String mensajeOpInv, Dueño dueño) {
         super(sc, formatoPrompt, waiting, mensajeOpInv);
@@ -71,7 +69,7 @@ public class ListaMascota extends SubMenu {
             return;
         }
 
-        String[] cabeceras = {"ID", "Nombre", "Edad", "Especie", "Raza"};
+        String[] cabeceras = {"ID", "NOMBRE", "EDAD", "ESPECIE", "RAZA"};
 
         // TODO no usar lambdas
         int max_id = maximaLongitudMascotas(mascotas, m -> Integer.toString(m.getId()), cabeceras[0]);
@@ -133,7 +131,7 @@ public class ListaMascota extends SubMenu {
                 .findFirst();
 
         if (posibleMascota.isEmpty()) {
-            System.out.println("El ID ingresado no existe.");
+            System.out.println("❌ El ID ingresado no existe.");
             return;
         }
 
@@ -150,6 +148,7 @@ public class ListaMascota extends SubMenu {
         boolean salir = false;
         switch (opt) {
             case 0 -> salir = true;
+            case 2 -> acciónModificarMascota(mascota);
             case 3 -> {
                 dueño.getMascotas().remove(mascota);
                 System.out.println("Eliminado correctamente");
@@ -157,8 +156,44 @@ public class ListaMascota extends SubMenu {
             default -> System.out.println(mensajeOpcionInválida);
         }
 
-        if (salir)
-            return;
+        if (salir) {
+        }
+    }
+
+    private void acciónModificarMascota(Mascota mascota) {
+        String cabecera = "# %s:\n";
+        String formatoAnterior = "Valor anterior: %s\n";
+
+
+        System.out.printf(cabecera, "Nombre");
+        System.out.printf(formatoAnterior, mascota.getNombre());
+        System.out.printf(formatoPrompt, "Nombre");
+        String nombre = sc.nextLine();
+
+        System.out.printf(cabecera, "Especie");
+        System.out.printf(formatoAnterior, mascota.getEspecie());
+        System.out.printf(formatoPrompt, "Especie");
+        String especie = sc.nextLine();
+
+        System.out.printf(cabecera, "Raza");
+        System.out.printf(formatoAnterior, mascota.getRaza());
+        System.out.printf(formatoPrompt, "Raza");
+        String raza = sc.nextLine();
+
+        System.out.printf(cabecera, "Fecha de nacimiento (DD/MM/AAAA)");
+        System.out.printf(formatoAnterior, mascota.getFechaNacimiento().format(formatoFecha));
+        System.out.printf(formatoPrompt, "Fecha de nacimiento");
+        String fechaStr = sc.nextLine();
+
+        if (!nombre.isBlank())
+            mascota.setNombre(nombre);
+        if (!especie.isBlank())
+            mascota.setEspecie(especie);
+        if (!raza.isBlank())
+            mascota.setRaza(raza);
+        if (!fechaStr.isBlank())
+            mascota.setFechaNacimiento(LocalDate.parse(fechaStr, formatoFecha));
+
     }
 
     private void acciónRegistrarMascota() {
@@ -175,7 +210,6 @@ public class ListaMascota extends SubMenu {
         System.out.printf(cabecera, "Raza");
         System.out.printf(formatoPrompt, "Raza");
         String raza = sc.nextLine();
-
 
         System.out.printf(cabecera, "Fecha de nacimiento (DD/MM/AAAA)");
         System.out.printf(formatoPrompt, "Fecha de nacimiento");
