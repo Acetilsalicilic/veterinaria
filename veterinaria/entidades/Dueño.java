@@ -15,9 +15,9 @@ public class Dueño {
 	private String telefonoDeEmergencia;
 	private String nombreDeEmergencia;
 	private Set<Mascota> mascotas;
-	
-	
-	
+
+
+
 	public Dueño(String nombre, String teléfono, String dirección, String telefonoDeEmergencia,
 			String nombreDeEmergencia) {
 		super();
@@ -28,7 +28,7 @@ public class Dueño {
 		this.telefonoDeEmergencia = telefonoDeEmergencia;
 		this.nombreDeEmergencia = nombreDeEmergencia;
 		this.activo = true;
-		
+
 		this.mascotas = new HashSet<>();
 		this.id = ultimoId++;
 	}
@@ -84,5 +84,5 @@ public class Dueño {
 	public List<Mascota> getListaMascotas() {
 		return new LinkedList<>(mascotas);
 	}
-	
+
 }
