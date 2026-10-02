@@ -30,7 +30,6 @@ public class ListaDueño extends SubMenu {
 			0. Volver
 			""";
 	
-	
 	public ListaDueño(Scanner sc, String formatoPrompt, String waiting, String opcionInvalida) {
 		super(sc, formatoPrompt, waiting, opcionInvalida);
 	}
@@ -111,6 +110,7 @@ public class ListaDueño extends SubMenu {
 		switch (opt) {
 			case 0 -> salir = true;
 			case 1 -> acciónMostrarDetalleDueño(dueño);
+			case 2 -> acciónModificarDueño(dueño);
 			case 3 -> {
 				dueños.remove(dueño);
 				System.out.println("Eliminado correctamente");
@@ -174,9 +174,44 @@ public class ListaDueño extends SubMenu {
 		System.out.println("--- Detalle Dueño ----");
 		info.forEach(c -> System.out.printf(formatoCampo, c.etiqueta, c.valor));
 
+		// TODO mostrar el resto de atributos
+
 		System.out.println();
 
 		System.out.println(waiting);
 		sc.nextLine();
+	}
+
+	private void acciónCrearDueño() {
+		// TODO implementar esto
+	}
+
+	private void acciónModificarDueño(Dueño dueño) {
+		String cabecera = "#%s:\n";
+		String formatoAnterior = "Valor anterior: %s\n";
+
+		System.out.printf(cabecera, "Nombre");
+		System.out.printf(formatoAnterior, dueño.getNombre());
+		System.out.printf(formatoPrompt, "Nombre");
+		String nombre = sc.nextLine();
+
+		System.out.printf(cabecera, "Teléfono");
+		System.out.printf(formatoAnterior, dueño.getTeléfono());
+		System.out.printf(formatoPrompt, "Teléfono");
+		String teléfono = sc.nextLine();
+
+		System.out.printf(cabecera, "Dirección");
+		System.out.printf(formatoAnterior, dueño.getDirección());
+		System.out.printf(formatoPrompt, "Dirección");
+		String dirección = sc.nextLine();
+
+		// TODO agregar los atributos que faltan por preguntar
+
+		if (!nombre.isEmpty())
+			dueño.setNombre(nombre);
+		if (!teléfono.isEmpty())
+			dueño.setTeléfono(teléfono);
+		if (!dirección.isEmpty())
+			dueño.setDirección(dirección);
 	}
 }
