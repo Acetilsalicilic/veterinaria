@@ -9,4 +9,40 @@ public class Consulta {
 	private String diagnóstico;
 	private String tratamiento;
 	private Mascota mascota;
+
+	public Consulta(int id, LocalDateTime fechaYHora, String motivo, String diagnóstico, String tratamiento, Mascota mascota)
+	{
+		this.id = id;
+		this.fechaYHora = fechaYHora;
+		this.motivo = motivo;
+		this.diagnóstico = diagnóstico;
+		this.tratamiento = tratamiento;
+		this.mascota = mascota;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public LocalDateTime getFechaYHora() {
+		return fechaYHora;
+	}
+
+	public String getMotivo() {
+		return motivo;
+	}
+
+	public String getDiagnóstico() {
+		return diagnóstico;
+	}
+
+	public String getTratamiento() {
+		return tratamiento;
+	}
+
+	public Mascota getMascota() {
+		return mascota;
+	}
 }
+
+

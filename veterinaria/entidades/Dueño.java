@@ -11,4 +11,47 @@ public class Dueño {
 	private String telefonoDeEmergencia;
 	private String nombreDeEmergencia;
 	private Set<Mascota> mascotas;
+
+	public Dueño(int id, boolean activo, String nombre, String teléfono, String dirección, String telefonoDeEmergencia, String nombreDeEmergencia)
+	{
+		this.id = id;
+		this.activo = activo;
+		this.nombre = nombre;
+		this.teléfono = teléfono;
+		this.dirección = dirección;
+		this.telefonoDeEmergencia = telefonoDeEmergencia;
+		this.nombreDeEmergencia = nombreDeEmergencia;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public Boolean getActivo() {
+		return activo;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getTeléfono() {
+		return teléfono;
+	}
+
+	public String getDirección() {
+		return dirección;
+	}
+
+	public String getTelefonoDeEmergencia() {
+		return telefonoDeEmergencia;
+	}
+
+	public String getNombreDeEmergencia() {
+		return nombreDeEmergencia;
+	}
+
+	public Set<Mascota> getMascotas() {
+		return mascotas;
+	}
 }
