@@ -3,6 +3,9 @@ package veterinaria.interfaz.cli;
 import veterinaria.entidades.Dueño;
 import veterinaria.entidades.Mascota;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
@@ -10,10 +13,10 @@ import java.util.Set;
 import static veterinaria.utiles.Utiles.maximaLongitudMascotas;
 
 public class ListaMascota extends SubMenu {
-    private String CABECERA_MENU = """
+    private final String CABECERA_MENU = """
             --- Menu Mascota ---
             """;
-    private String MENU_MASCOTA = """
+    private final String MENU_MASCOTA = """
             
             --- *************** ---
             1. Buscar mascota
@@ -21,7 +24,7 @@ public class ListaMascota extends SubMenu {
             
             0. Volver
             """;
-    private String MENU_ACCIONES_MASCOTA = """
+    private final String MENU_ACCIONES_MASCOTA = """
             1. Ver detalle
             2. Modificar mascota
             3. Eliminar mascota
@@ -30,7 +33,7 @@ public class ListaMascota extends SubMenu {
             
             0. Cancelar
             """;
-
+    private final DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     private Dueño dueño;
 
@@ -54,6 +57,7 @@ public class ListaMascota extends SubMenu {
             switch (opt) {
                 case 0 -> salir = true;
                 case 1 -> acciónBuscarMascota(dueño.getListaMascotas());
+                case 2 -> acciónRegistrarMascota();
                 default -> System.out.println(mensajeOpcionInválida);
             }
 
@@ -69,6 +73,7 @@ public class ListaMascota extends SubMenu {
 
         String[] cabeceras = {"ID", "Nombre", "Edad", "Especie", "Raza"};
 
+        // TODO no usar lambdas
         int max_id = maximaLongitudMascotas(mascotas, m -> Integer.toString(m.getId()), cabeceras[0]);
         int max_nombre = maximaLongitudMascotas(mascotas, Mascota::getNombre, cabeceras[1]);
         int max_edad = maximaLongitudMascotas(mascotas, m -> Long.toString(m.getEdad()), cabeceras[2]);
@@ -86,9 +91,9 @@ public class ListaMascota extends SubMenu {
 
         for (var m : mascotas) {
             System.out.printf(formato,
-                    Integer.toString(m.getId()),
+                    m.getId(),
                     m.getNombre(),
-                    Long.toString(m.getEdad()),
+                    m.getEdad(),
                     m.getEspecie(),
                     m.getRaza()
                     );
@@ -154,6 +159,30 @@ public class ListaMascota extends SubMenu {
 
         if (salir)
             return;
+    }
+
+    private void acciónRegistrarMascota() {
+        String cabecera = "# %s:\n";
+
+        System.out.printf(cabecera, "Nombre");
+        System.out.printf(formatoPrompt, "Nombre");
+        String nombre = sc.nextLine();
+
+        System.out.printf(cabecera, "Especie");
+        System.out.printf(formatoPrompt, "Especie");
+        String especie = sc.nextLine();
+
+        System.out.printf(cabecera, "Raza");
+        System.out.printf(formatoPrompt, "Raza");
+        String raza = sc.nextLine();
+
+
+        System.out.printf(cabecera, "Fecha de nacimiento (DD/MM/AAAA)");
+        System.out.printf(formatoPrompt, "Fecha de nacimiento");
+        String fechaStr = sc.nextLine();
+        var fechaNacimiento = LocalDate.parse(fechaStr, formatoFecha);
+
+        dueño.getMascotas().add(new Mascota(nombre, especie, raza, fechaNacimiento, dueño));
     }
 }
 

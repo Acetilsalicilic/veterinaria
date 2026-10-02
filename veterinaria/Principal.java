@@ -1,6 +1,6 @@
 package veterinaria;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class Principal {
 		dueños.getLast().getMascotas().add(new Mascota("Jack",
 				"Perro",
 				"IDK",
-				LocalDateTime.now(),
+				LocalDate.now(),
 				dueños.getLast()));
 
 		CLI.run();
