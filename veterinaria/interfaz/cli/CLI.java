@@ -6,6 +6,7 @@ public class CLI {
 	
 	private static final String prompt = "[%s]> ";
 	private static final String waiting = "ENTER...";
+	private static final String opcionInválida = "❌ La opción elegida no es válida.";
 	
 	private static final String MENU_PRINCIPAL = """
 			--- MENU PRINCIPAL ---
@@ -32,7 +33,10 @@ public class CLI {
 			switch (opt) {
 			case 0 -> exit = true;
 			case 1 -> {
-				new ListaDueño(sc, prompt, waiting).iniciar();
+				new ListaDueño(sc, prompt, waiting, opcionInválida).iniciar();
+			}
+			default -> {
+				System.out.println(opcionInválida);
 			}
 			}
 			

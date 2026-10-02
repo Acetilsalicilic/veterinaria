@@ -2,11 +2,11 @@ package veterinaria.interfaz.cli;
 
 import static veterinaria.utiles.Utiles.maximaLongitud;
 
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 import veterinaria.Principal;
 import veterinaria.entidades.Dueño;
+import veterinaria.utiles.Campo;
 
 public class ListaDueño extends SubMenu {
 	private static final String ENCABEZADO_MENU = """
@@ -31,8 +31,8 @@ public class ListaDueño extends SubMenu {
 			""";
 	
 	
-	public ListaDueño(Scanner sc, String formatoPrompt, String waiting) {
-		super(sc, formatoPrompt, waiting);
+	public ListaDueño(Scanner sc, String formatoPrompt, String waiting, String opcionInvalida) {
+		super(sc, formatoPrompt, waiting, opcionInvalida);
 	}
 	
 	@Override
@@ -50,8 +50,9 @@ public class ListaDueño extends SubMenu {
 			
 			boolean salir = false;
 			switch (opt) {
-			case 0 -> salir = true;
-			case 1 -> acciónBuscarDueño(Principal.dueños);
+				case 0 -> salir = true;
+				case 1 -> acciónBuscarDueño(Principal.dueños);
+                default -> System.out.println(mensajeOpcionInválida);
 			}
 			
 			if (salir) return;
@@ -108,22 +109,23 @@ public class ListaDueño extends SubMenu {
 		
 		boolean salir = false;
 		switch (opt) {
-		case 0 -> salir = true;
-		case 3 -> {
-			dueños.remove(dueño);
-			System.out.println("Eliminado correctamente");
-		}
+			case 0 -> salir = true;
+			case 1 -> acciónMostrarDetalleDueño(dueño);
+			case 3 -> {
+				dueños.remove(dueño);
+				System.out.println("Eliminado correctamente");
+			}
+            default -> System.out.println(mensajeOpcionInválida);
 		}
 		
 		if (salir)
 			return;
 	}
 	
-	
 	private void imprimirTabla(List<Dueño> dueños) {
 		String[] cabeceras = {"ID", "NOMBRE", "TELÉFONO"};
 		
-		if (dueños.size() == 0) {
+		if (dueños.isEmpty()) {
 			System.out.println("\t# No se encontraron registros para mostrar.");
 			return;
 		}
@@ -132,15 +134,13 @@ public class ListaDueño extends SubMenu {
 		int max_nombre = maximaLongitud(dueños, Dueño::getNombre, cabeceras[1].length());
 		int max_telefono = maximaLongitud(dueños, Dueño::getTeléfono, cabeceras[2].length());
 		
-		var formato = new StringBuilder()
-				.append("|%")
-				.append(max_id)
-				.append("s|%")
-				.append(max_nombre)
-				.append("s|%")
-				.append(max_telefono)
-				.append("s|\n")
-				.toString();
+		var formato = "|%" +
+                max_id +
+                "s|%" +
+                max_nombre +
+                "s|%" +
+                max_telefono +
+                "s|\n";
 		
 		System.out.printf(formato, (Object[]) cabeceras);
 		
@@ -148,8 +148,8 @@ public class ListaDueño extends SubMenu {
 		
 		
 		for (var d : dueños) {
-			System.out.printf(formato, 
-					Integer.toString(d.getId()),
+			System.out.printf(formato,
+                    d.getId(),
 					d.getNombre(),
 					d.getTeléfono());
 		}
@@ -158,4 +158,25 @@ public class ListaDueño extends SubMenu {
 		System.out.println("\t# Se encontraron "+dueños.size()+" registros.");
 	}
 
+	private void acciónMostrarDetalleDueño(Dueño dueño) {
+		List<Campo> info = new LinkedList<>();
+
+		info.add(new Campo("ID", dueño.getId()));
+		info.add(new Campo("Nombre", dueño.getNombre()));
+		info.add(new Campo("Teléfono", dueño.getTeléfono()));
+
+		int maxAncho = 0;
+		for (Campo campo : info)
+			maxAncho = Integer.max(maxAncho, campo.etiqueta.length());
+
+		String formatoCampo = "%"+maxAncho+"s: %s\n";
+
+		System.out.println("--- Detalle Dueño ----");
+		info.forEach(c -> System.out.printf(formatoCampo, c.etiqueta, c.valor));
+
+		System.out.println();
+
+		System.out.println(waiting);
+		sc.nextLine();
+	}
 }
