@@ -1,12 +1,13 @@
 package veterinaria.interfaz.cli;
 
-import static veterinaria.utiles.Utiles.maximaLongitud;
+import static veterinaria.utiles.Utiles.maximaLongitudDueños;
 
 import java.util.*;
 
 import veterinaria.Principal;
 import veterinaria.entidades.Dueño;
 import veterinaria.utiles.Campo;
+import veterinaria.utiles.Utiles;
 
 public class ListaDueño extends SubMenu {
 	private static final String ENCABEZADO_MENU = """
@@ -26,6 +27,7 @@ public class ListaDueño extends SubMenu {
 			1. Ver detalle
 			2. Modificar dueño
 			3. Eliminar dueño
+			4. Ver mascotas
 			
 			0. Volver
 			""";
@@ -115,6 +117,10 @@ public class ListaDueño extends SubMenu {
 				dueños.remove(dueño);
 				System.out.println("Eliminado correctamente");
 			}
+			case 4 -> {
+				// TODO esto está bien?
+				new ListaMascota(sc, formatoPrompt, waiting, mensajeOpcionInválida, dueño).iniciar();
+			}
             default -> System.out.println(mensajeOpcionInválida);
 		}
 		
@@ -129,10 +135,11 @@ public class ListaDueño extends SubMenu {
 			System.out.println("\t# No se encontraron registros para mostrar.");
 			return;
 		}
-		
-		int max_id = maximaLongitud(dueños, d -> Integer.toString(d.getId()), cabeceras[0].length());
-		int max_nombre = maximaLongitud(dueños, Dueño::getNombre, cabeceras[1].length());
-		int max_telefono = maximaLongitud(dueños, Dueño::getTeléfono, cabeceras[2].length());
+
+		// TODO agregar el resto de campos
+		int max_id = Utiles.maximaLongitudDueños(dueños, d -> Integer.toString(d.getId()), cabeceras[0].length());
+		int max_nombre = Utiles.maximaLongitudDueños(dueños, Dueño::getNombre, cabeceras[1].length());
+		int max_telefono = Utiles.maximaLongitudDueños(dueños, Dueño::getTeléfono, cabeceras[2].length());
 		
 		var formato = "|%" +
                 max_id +
@@ -143,18 +150,14 @@ public class ListaDueño extends SubMenu {
                 "s|\n";
 		
 		System.out.printf(formato, (Object[]) cabeceras);
-		
-		// Imprimir las entidades
-		
-		
+
 		for (var d : dueños) {
 			System.out.printf(formato,
                     d.getId(),
 					d.getNombre(),
 					d.getTeléfono());
 		}
-		
-		// Imprimir el número de entidades
+
 		System.out.println("\t# Se encontraron "+dueños.size()+" registros.");
 	}
 

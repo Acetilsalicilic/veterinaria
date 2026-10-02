@@ -1,6 +1,8 @@
 package veterinaria.entidades;
 
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class Dueño {
@@ -27,13 +29,16 @@ public class Dueño {
 		this.nombreDeEmergencia = nombreDeEmergencia;
 		this.activo = true;
 		
-		this.mascotas = new HashSet<Mascota>();
+		this.mascotas = new HashSet<>();
 		this.id = ultimoId++;
 	}
-	
+
+	// TODO eliminar este constructor de prueba
 	public Dueño(String nombre, String teléfono) {
 		this.nombre = nombre;
 		this.teléfono = teléfono;
+
+		this.mascotas = new HashSet<>();
 	}
 	
 	public int getId() {
@@ -84,6 +89,8 @@ public class Dueño {
 	public void setMascotas(Set<Mascota> mascotas) {
 		this.mascotas = mascotas;
 	}
-	
+	public List<Mascota> getListaMascotas() {
+		return new LinkedList<>(mascotas);
+	}
 	
 }
