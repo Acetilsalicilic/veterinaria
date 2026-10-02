@@ -27,6 +27,7 @@ public class ListaDueño extends SubMenu {
 			1. Ver detalle
 			2. Modificar dueño
 			3. Eliminar dueño
+			
 			4. Ver mascotas
 			
 			0. Volver
