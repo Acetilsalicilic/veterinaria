@@ -3,6 +3,7 @@ package veterinaria.interfaz.cli;
 import java.util.List;
 import java.util.Scanner;
 
+import veterinaria.Principal;
 import veterinaria.entidades.Dueño;
 
 public class CLI {
@@ -13,13 +14,16 @@ public class CLI {
 	private static final String MENU_PRINCIPAL = """
 			--- MENU PRINCIPAL ---
 			1. Lista de dueños
-			2. Registrar dueño
 			
 			0. Salir
 			""";
 	
 	private static final String MENU_BUSCAR_DUEÑO = """
 			--- Lista de dueños ---
+			1. Ver detalle
+			2. Registrar dueño
+			3. Eliminar dueño
+			
 			0. Volver
 			""";
 	
@@ -48,7 +52,7 @@ public class CLI {
 	
 	private static void menuBuscarDueño() {
 		for (;;) {
-			TablaDueños.imprimirTabla(List.of(new Dueño("Xhuk", "992")));
+			TablaDueños.imprimirTabla(Principal.dueños);
 			
 			System.out.print(MENU_BUSCAR_DUEÑO);
 			System.out.printf(prompt, "listaDueños");
@@ -59,6 +63,7 @@ public class CLI {
 			boolean salir = false;
 			switch (opt) {
 			case 0 -> salir = true;
+			case 3 -> acciónEliminarDueño(Principal.dueños);
 			}
 			
 			if (salir) return;
@@ -66,6 +71,25 @@ public class CLI {
 			System.out.println(waiting);
 			sc.nextLine();
 		}
+	}
+	
+	private static void acciónEliminarDueño(List<Dueño> dueños) {
+		System.out.println("Ingresa el ID del dueño a eliminar");
+		System.out.printf(prompt, "eliminar dueño");
 		
+		int id = sc.nextInt();
+		sc.nextLine();
+		
+		for (var d : dueños) {
+			if (d.getId() != id)
+				continue;
+			
+			dueños.remove(d);
+			
+			System.out.println("Eliminado correctamente.");
+			return;
+		}
+		
+		System.out.println("El ID no coincide con ningún registro.");
 	}
 }
