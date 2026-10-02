@@ -1,24 +1,28 @@
 package veterinaria.entidades;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Mascota {
+	private static int ultimoId = 0;
 	private int id;
 	private boolean activo;
 	private String nombre;
 	private String especie;
 	private String raza;
-	private LocalDateTime fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	private Dueño dueño;
 
-	public Mascota(String nombre, String especie, String raza, LocalDateTime fechaNacimiento, Dueño dueño) {
+	public Mascota(String nombre, String especie, String raza, LocalDate fechaNacimiento, Dueño dueño) {
 		this.activo = true;
 		this.nombre = nombre;
 		this.especie = especie;
 		this.raza = raza;
 		this.fechaNacimiento = fechaNacimiento;
 		this.dueño = dueño;
+
+		this.id = ultimoId++;
 	}
 
 	public long getEdad() {
@@ -61,11 +65,11 @@ public class Mascota {
 		this.raza = raza;
 	}
 
-	public LocalDateTime getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(LocalDateTime fechaNacimiento) {
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
