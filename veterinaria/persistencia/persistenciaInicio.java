@@ -4,9 +4,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import veterinaria.entidades.Dueño;
-import veterinaria.entidades.Mascota;
-import veterinaria.herramientas.HerramientasDueño;
+import veterinaria.entidades.*;
+import veterinaria.herramientas.*;
 
 public class persistenciaInicio {
     public static void inicializadorDatos() {
@@ -18,6 +17,7 @@ public class persistenciaInicio {
         LinkedList<Dueño> dueños =  persistenciaDueño.obteniendoDueños();
         ArrayList<Integer> dueñosMascota = new ArrayList<>();
         LinkedList<Mascota> mascotas = persistenciaMascota.obteniendoMascotas(dueñosMascota);
+        LinkedList<Veterinario> veterinarios = persistenciaVeterinario.obteniendoVeterinarios();
 
         int i = 0;
         for (Mascota mascota : mascotas) {
