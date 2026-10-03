@@ -9,6 +9,7 @@ public class Consulta {
 	private String diagnóstico;
 	private String tratamiento;
 	private Mascota mascota;
+	private Veterinario veterinario;
 
 	public Consulta(LocalDateTime fechaYHora, String motivo, Mascota mascota) {
 		this.fechaYHora = fechaYHora;

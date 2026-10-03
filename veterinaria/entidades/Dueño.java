@@ -3,6 +3,7 @@ package veterinaria.entidades;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Dueño {
@@ -20,14 +21,12 @@ public class Dueño {
 
 	public Dueño(String nombre, String teléfono, String dirección, String telefonoDeEmergencia,
 			String nombreDeEmergencia) {
-		super();
 		this.activo = true;
 		this.nombre = nombre;
 		this.teléfono = teléfono;
 		this.dirección = dirección;
 		this.telefonoDeEmergencia = telefonoDeEmergencia;
 		this.nombreDeEmergencia = nombreDeEmergencia;
-		this.activo = true;
 
 		this.mascotas = new HashSet<>();
 		this.id = ultimoId++;

@@ -32,7 +32,7 @@ public class HerramientasMascota {
 
         System.out.print("Especie: ");
         String especie = scanner.nextLine();
-        
+
         System.out.print("Raza: ");
         String raza = scanner.nextLine();
 
@@ -45,7 +45,7 @@ public class HerramientasMascota {
         LocalDate fechaNacimiento = LocalDate.of(año, mes, dia);
 
         Mascota mascota= new Mascota(nombre, especie, raza, fechaNacimiento, dueño);
-        
+
         dueño.getMascotas().add(mascota);
 
         System.out.println("Mascota registrada exitosamente :D");

@@ -1,6 +1,9 @@
 package veterinaria.herramientas;
 
+import java.util.LinkedList;
 import veterinaria.entidades.Dueño;
+import veterinaria.entidades.Mascota;
+import veterinaria.persistencia.persistenciaDueño;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -29,7 +32,7 @@ public class HerramientasDueño {
                 filtrados.add(d);
         return filtrados;
     }
-        
+
     public static void crearDueño(Scanner scanner){
         System.out.println("Ingresa los siguientes datos: ");
         System.out.print("Nombre: ");
@@ -37,7 +40,7 @@ public class HerramientasDueño {
 
         System.out.print("Telefono: ");
         String telefono = scanner.nextLine();
-        
+
         System.out.print("Dirección: ");
         String direccion = scanner.nextLine();
 
