@@ -168,6 +168,7 @@ public class ListaDueño extends SubMenu {
 		info.add(new Campo("ID", dueño.getId()));
 		info.add(new Campo("Nombre", dueño.getNombre()));
 		info.add(new Campo("Teléfono", dueño.getTeléfono()));
+		// TODO mostrar el resto de atributos
 
 		int maxAncho = 0;
 		for (Campo campo : info)
@@ -176,10 +177,9 @@ public class ListaDueño extends SubMenu {
 		String formatoCampo = "%"+maxAncho+"s: %s\n";
 
 		System.out.println("--- Detalle Dueño ----");
-		// TODO no usar lambdas
-		info.forEach(c -> System.out.printf(formatoCampo, c.etiqueta, c.valor));
 
-		// TODO mostrar el resto de atributos
+		for (var c : info)
+			System.out.printf(formatoCampo, c.etiqueta, c.valor);
 
 		System.out.println();
 

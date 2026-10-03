@@ -21,6 +21,7 @@ public class Principal {
 				"IDK",
 				LocalDate.now(),
 				dueños.getLast()));
+		veterinarios.add(new Veterinario("Carlos", "Perros"));
 
 		CLI.run();
 
