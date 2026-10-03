@@ -8,9 +8,14 @@ import java.util.List;
 import veterinaria.entidades.*;
 
 public class persistenciaVeterinario {
+    private static Path archivo;
+    
+    public static void setArchivo(Path archivo) {
+        persistenciaVeterinario.archivo = archivo;
+    }
+    
     // Retorna verdadero si no encuentra un veterinario con el ID, lo cuál nunca debería pasar
     public static boolean actualizarVeterinario(Veterinario veterinario) throws IOException {
-        Path archivo = Path.of("datosVeterinario.csv");
         List<String> lineas = Files.readAllLines(archivo);
 
         ArrayList<String> veterinarioActualizado = new ArrayList<String>();
@@ -34,7 +39,6 @@ public class persistenciaVeterinario {
     }
 
     public static void agregarVeterinario(Veterinario veterinario) throws IOException {
-        Path archivo = Path.of("datosVeterinario.csv");
         List<String> lineas = Files.readAllLines(archivo);
 
         ArrayList<String> veterinarioNuevo = new ArrayList<String>();

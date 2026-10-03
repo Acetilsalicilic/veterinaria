@@ -3,14 +3,20 @@ package veterinaria.persistencia;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import veterinaria.entidades.*;
 
-class persistenciaDueño {
+public class persistenciaDueño {
+    private static Path archivo;
+
+    public static void setArchivo(Path archivo) {
+        persistenciaDueño.archivo = archivo;
+    }
+
     // Retorna verdadero si no encuentra un veterinario con el ID, lo cuál nunca debería pasar
     public static boolean actualizarDueño(Dueño dueño) throws IOException {
-        Path archivo = Path.of("datosDueño.csv");
         List<String> lineas = Files.readAllLines(archivo);
 
         ArrayList<String> dueñoActualizado = new ArrayList<String>();
@@ -32,12 +38,11 @@ class persistenciaDueño {
             }
         }
 
-        agregarDueño(dueño);
+        registrarDueño(dueño);
         return true;
     }
 
-    public static void agregarDueño(Dueño dueño) throws IOException {
-        Path archivo = Path.of("datosDueño.csv");
+    public static void registrarDueño(Dueño dueño) throws IOException {
         List<String> lineas = Files.readAllLines(archivo);
 
         ArrayList<String> dueñoNuevo = new ArrayList<String>();
@@ -53,5 +58,35 @@ class persistenciaDueño {
 
         Files.write(archivo, lineas);
         System.out.println("Se agrega elemento");
+    }
+
+    public static LinkedList<Dueño> obteniendoDueños() {
+        List<String> lineas;
+
+        try {
+            lineas = Files.readAllLines(archivo);
+        } catch (Exception e) {
+            return new LinkedList<Dueño>();
+        }
+        
+        LinkedList<Dueño> dueños = new LinkedList<Dueño>();
+
+        for(String linea : lineas) {
+            Dueño dueño = crearDueño(linea);
+            if (dueño != null) {
+                dueños.add(dueño);
+            }
+        }
+
+        return dueños;
+    }
+
+    private static Dueño crearDueño(String strDueño) {
+        String[] datos = strDueño.split(",", -1);
+
+        if(datos.length < 7)
+            return null;
+
+        return new Dueño(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], datos[5], datos[6]);
     }
 }

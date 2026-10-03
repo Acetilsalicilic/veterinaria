@@ -2,16 +2,20 @@ package veterinaria.persistencia;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import veterinaria.entidades.*;
 
 public class persistenciaMascota {
+    private static Path archivo;
+
+    public static void setArchivo(Path archivo) {
+        persistenciaMascota.archivo = archivo;
+    }
+
     // Retorna verdadero si no encuentra un veterinario con el ID, lo cuál nunca debería pasar
     public static boolean actualizarMascota(Mascota mascota) throws IOException{
-        Path archivo = Path.of("datosMascota.csv");
         List<String> lineas = Files.readAllLines(archivo);
 
         ArrayList<String> mascotaActualizado = new ArrayList<String>();
@@ -38,7 +42,6 @@ public class persistenciaMascota {
     }
 
     public static void agregarMascota(Mascota mascota) throws IOException {
-        Path archivo = Path.of("datosMascota.csv");
         List<String> lineas = Files.readAllLines(archivo);
 
         ArrayList<String> mascotaNuevo = new ArrayList<String>();
