@@ -1,5 +1,6 @@
 package veterinaria.entidades;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Dueño {
@@ -21,6 +22,7 @@ public class Dueño {
 		this.dirección = dirección;
 		this.telefonoDeEmergencia = telefonoDeEmergencia;
 		this.nombreDeEmergencia = nombreDeEmergencia;
+		mascotas = new HashSet<>();
 	}
 
 	public int getId() {
@@ -53,5 +55,9 @@ public class Dueño {
 
 	public Set<Mascota> getMascotas() {
 		return mascotas;
+	}
+
+	public void agregarMascota(Mascota mascota) {
+		mascotas.add(mascota);
 	}
 }

@@ -3,6 +3,8 @@ package veterinaria.persistencia;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import veterinaria.entidades.*;
@@ -57,5 +59,41 @@ public class persistenciaMascota {
 
         Files.write(archivo, lineas);
         System.out.println("Se agrega elemento");
+    }
+
+    public static LinkedList<Mascota> obteniendoMascotas(ArrayList<Integer> dueñoId) {
+        List<String> lineas;
+
+        try {
+            lineas = Files.readAllLines(archivo);
+        } catch (Exception e) {
+            return new LinkedList<Mascota>();
+        }
+
+        LinkedList<Mascota> mascotas = new LinkedList<Mascota>();
+        
+        for (String linea : lineas) {
+            Mascota nuevaMascota = crearMascota(linea);
+            if(nuevaMascota != null)
+            {
+                mascotas.add(nuevaMascota);
+                String[] datos = linea.split(",", -1);
+                dueñoId.add(Integer.valueOf(datos[6]));
+            }
+        }
+
+        return mascotas;
+    }
+
+    private static Mascota crearMascota(String strMascota) {
+        String[] datos = strMascota.split(",", -1);
+
+        if(datos.length < 7)
+        {
+            System.err.println("Formato invalido");
+            return null;
+        }
+
+        return new Mascota(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], LocalDateTime.parse(datos[5]), null);
     }
 }

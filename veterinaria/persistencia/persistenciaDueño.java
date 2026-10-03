@@ -85,7 +85,10 @@ public class persistenciaDueño {
         String[] datos = strDueño.split(",", -1);
 
         if(datos.length < 7)
+        {
+            System.err.println("Formato invalido");
             return null;
+        }
 
         return new Dueño(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], datos[5], datos[6]);
     }

@@ -9,6 +9,7 @@ public class Consulta {
 	private String diagnóstico;
 	private String tratamiento;
 	private Mascota mascota;
+	private Veterinario veterinario;
 
 	public Consulta(int id, LocalDateTime fechaYHora, String motivo, String diagnóstico, String tratamiento, Mascota mascota)
 	{
