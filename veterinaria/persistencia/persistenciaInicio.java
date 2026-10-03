@@ -9,15 +9,20 @@ import veterinaria.herramientas.*;
 
 public class persistenciaInicio {
     public static void inicializadorDatos() {
-        persistenciaDueño.setArchivo(Path.of("datosDueño.csv"));
+        persistenciaDueño.setArchivo(Path.of("datosDueños.csv"));
         persistenciaMascota.setArchivo(Path.of("datosMascotas.csv"));
         persistenciaVeterinario.setArchivo(Path.of("datosVeterinarios.csv"));
         persistenciaConsulta.setArchivo(Path.of("datosConsultas.csv"));
 
-        LinkedList<Dueño> dueños =  persistenciaDueño.obteniendoDueños();
+
         ArrayList<Integer> dueñosMascota = new ArrayList<>();
+        ArrayList<Integer> MascotaConsulta = new ArrayList<>();
+        ArrayList<Integer> VeterinarioConsulta = new ArrayList<>();
+
+        LinkedList<Dueño> dueños =  persistenciaDueño.obteniendoDueños();
         LinkedList<Mascota> mascotas = persistenciaMascota.obteniendoMascotas(dueñosMascota);
         LinkedList<Veterinario> veterinarios = persistenciaVeterinario.obteniendoVeterinarios();
+        LinkedList<Consulta> consultas = persistenciaConsulta.obtenerConsultas(MascotaConsulta, VeterinarioConsulta);
 
         int i = 0;
         for (Mascota mascota : mascotas) {

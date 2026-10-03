@@ -57,7 +57,8 @@ public class Consulta {
 		return mascota;
 	}
 
-	public void setMascota(Mascota mascota) {
-		this.mascota = mascota;
+	public Veterinario getVeterinario() {
+		return veterinario;
 	}
 }
+
