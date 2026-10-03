@@ -33,7 +33,7 @@ public class persistenciaConsulta {
         consultaActualizado.add(consulta.getDiagnóstico());
         consultaActualizado.add(consulta.getTratamiento());
         consultaActualizado.add(String.valueOf(consulta.getMascota().getId()));
-        consultaActualizado.add(String.valueOf(consulta.getConsulta().getId()));
+        consultaActualizado.add(String.valueOf(consulta.getVeterinario().getId()));
         
         for(int i = 0; i < lineas.size(); i++) {
             String[] datos = lineas.get(i).split(",");
@@ -59,7 +59,7 @@ public class persistenciaConsulta {
         consultaActualizado.add(consulta.getDiagnóstico());
         consultaActualizado.add(consulta.getTratamiento());
         consultaActualizado.add(String.valueOf(consulta.getMascota().getId()));
-        consultaActualizado.add(String.valueOf(consulta.getConsulta().getId()));
+        consultaActualizado.add(String.valueOf(consulta.getVeterinario().getId()));
         
         lineas.add(String.join(",", consultaActualizado));
 
