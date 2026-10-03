@@ -44,6 +44,10 @@ public class Consulta {
 	public Mascota getMascota() {
 		return mascota;
 	}
+
+	public Veterinario getVeterinario() {
+		return veterinario;
+	}
 }
 
 
