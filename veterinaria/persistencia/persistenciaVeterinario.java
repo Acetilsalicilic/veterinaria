@@ -2,10 +2,17 @@ package veterinaria.persistencia;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import veterinaria.entidades.*;
+
+/*
+    Formato en el .csv
+    ID,Activo,Nombre,Especialidad
+*/
 
 public class persistenciaVeterinario {
     private static Path archivo;
@@ -51,5 +58,39 @@ public class persistenciaVeterinario {
 
         Files.write(archivo, lineas);
         System.out.println("Se agrega elemento");
+    }
+
+    public static LinkedList<Veterinario> obteniendoVeterinarios() {
+        List<String> lineas;
+
+        try {
+            lineas = Files.readAllLines(archivo);
+        } catch (Exception e) {
+            return new LinkedList<Veterinario>();
+        }
+
+        LinkedList<Veterinario> veterinarios = new LinkedList<Veterinario>();
+        
+        for (String linea : lineas) {
+            Veterinario nuevoVeterinario = crearVeterinario(linea);
+            if(nuevoVeterinario != null)
+            {
+                veterinarios.add(nuevoVeterinario);
+            }
+        }
+
+        return veterinarios;
+    }
+
+    private static Veterinario crearVeterinario(String strVeterinario) {
+        String[] datos = strVeterinario.split(",", -1);
+
+        if(datos.length < 4)
+        {
+            System.err.println("Formato invalido");
+            return null;
+        }
+
+        return new Veterinario(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3]);
     }
 }
