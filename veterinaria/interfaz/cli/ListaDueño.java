@@ -176,6 +176,7 @@ public class ListaDueño extends SubMenu {
 		String formatoCampo = "%"+maxAncho+"s: %s\n";
 
 		System.out.println("--- Detalle Dueño ----");
+		// TODO no usar lambdas
 		info.forEach(c -> System.out.printf(formatoCampo, c.etiqueta, c.valor));
 
 		// TODO mostrar el resto de atributos

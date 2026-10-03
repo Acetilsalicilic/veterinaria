@@ -2,9 +2,11 @@ package veterinaria.interfaz.cli;
 
 import veterinaria.entidades.Dueño;
 import veterinaria.entidades.Mascota;
+import veterinaria.utiles.Campo;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -148,6 +150,7 @@ public class ListaMascota extends SubMenu {
         boolean salir = false;
         switch (opt) {
             case 0 -> salir = true;
+            case 1 -> acciónMostrarDetalleMascota(mascota);
             case 2 -> acciónModificarMascota(mascota);
             case 3 -> {
                 dueño.getMascotas().remove(mascota);
@@ -217,6 +220,32 @@ public class ListaMascota extends SubMenu {
         var fechaNacimiento = LocalDate.parse(fechaStr, formatoFecha);
 
         dueño.getMascotas().add(new Mascota(nombre, especie, raza, fechaNacimiento, dueño));
+    }
+
+    private void acciónMostrarDetalleMascota (Mascota mascota) {
+        List<Campo> info = new LinkedList<>();
+
+        info.add(new Campo("ID", mascota.getId()));
+        info.add(new Campo("Nombre", mascota.getNombre()));
+        info.add(new Campo("Edad", mascota.getEdad()));
+        info.add(new Campo("Fecha de nacimiento", mascota.getFechaNacimiento().format(formatoFecha)));
+        info.add(new Campo("Especie", mascota.getEspecie()));
+        info.add(new Campo("Raza", mascota.getRaza()));
+        // TODO aladir número de consultas asociadas
+
+        int maxAncho = 0;
+        for (Campo campo : info)
+            maxAncho = Integer.max(maxAncho, campo.etiqueta.length());
+
+        String formatoCampo = "%"+maxAncho+"s: %s\n";
+
+        System.out.println("--- Detalle Mascota ---");
+        for (var campo : info)
+            System.out.printf(formatoCampo, campo.etiqueta, campo.valor);
+        System.out.println();
+
+        System.out.println(waiting);
+        sc.nextLine();
     }
 }
 

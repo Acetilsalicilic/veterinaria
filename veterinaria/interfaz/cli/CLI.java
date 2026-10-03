@@ -11,6 +11,7 @@ public class CLI {
 	private static final String MENU_PRINCIPAL = """
 			--- MENU PRINCIPAL ---
 			1. Lista de dueños
+			2. Lista de veterinarios
 			
 			0. Salir
 			""";
@@ -31,13 +32,14 @@ public class CLI {
 			
 			// Menu
 			switch (opt) {
-			case 0 -> exit = true;
-			case 1 -> {
-				new ListaDueño(sc, prompt, waiting, opcionInválida).iniciar();
-			}
-			default -> {
-				System.out.println(opcionInválida);
-			}
+				case 0 -> exit = true;
+				case 1 -> {
+					new ListaDueño(sc, prompt, waiting, opcionInválida).iniciar();
+				}
+				case 2 -> {
+					new ListaVeterinario(sc, prompt, waiting, opcionInválida).iniciar();
+				}
+				default -> System.out.println(opcionInválida);
 			}
 			
 			if (exit) break;

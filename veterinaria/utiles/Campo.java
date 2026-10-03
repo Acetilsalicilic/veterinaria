@@ -10,4 +10,7 @@ public class Campo {
     public Campo(String etiqueta, Integer valor) {
         this(etiqueta, Integer.toString(valor));
     }
+    public Campo(String etiqueta, Long valor) {
+        this(etiqueta, Long.toString(valor));
+    }
 }
