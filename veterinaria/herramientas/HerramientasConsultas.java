@@ -1,3 +1,8 @@
+package veterinaria.herramientas;
+
+import veterinaria.entidades.Consulta;
+import veterinaria.entidades.Mascota;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,19 +19,19 @@ public class HerramientasConsultas {
         Scanner scanner=new Scanner(System.in);
         System.out.println("Consulta para "+mascota.getNombre());
         boolean bandera=true;
-        LocalDateTime cita;
+        LocalDateTime cita = null;
         scanner.nextLine();
         while (bandera){
             System.out.println("Cuando quiere su cita? dd/mm/yy ");
             String fecha=scanner.nextLine();
-            int dia=obtener.dia(fecha);
-            int mes=obtener.mes(fecha);
-            int año=obtener.año(fecha);
+            int dia=Obtener.dia(fecha);
+            int mes=Obtener.mes(fecha);
+            int año=Obtener.año(fecha);
 
             System.out.println("A qué hora quiere su cita? ");
             String tiempo=scanner.nextLine();
-            int hora=obtener.hora(tiempo);
-            int minuto=obtener.min(tiempo);
+            int hora=Obtener.hora(tiempo);
+            int minuto=Obtener.min(tiempo);
 
             cita = LocalDateTime.of(año, mes, dia, hora, minuto);
 
@@ -62,7 +67,7 @@ public class HerramientasConsultas {
         System.out.println("Consultas agendadas de "+mascota.getNombre());
         for (Consulta consulta:agendadas.get(mascota)){
             System.out.println("ID: " + consulta.getId());
-            System.out.println("Fecha: " + consulta.getCita());
+            System.out.println("Fecha: " + consulta.getFechaYHora());
             System.out.println("Motivo: " + consulta.getMotivo());
         }
 
@@ -92,19 +97,19 @@ public class HerramientasConsultas {
             switch (op) {
                 case 1:
                     boolean banderaFecha = true;
-                    LocalDateTime cita;
+                    LocalDateTime cita = null;
                     scanner.nextLine();
                     while (banderaFecha) {
                         System.out.println("Cuando quiere su cita? dd/mm/yy ");
                         String fecha=scanner.nextLine();
-                        int dia=obtener.dia(fecha);
-                        int mes=obtener.mes(fecha);
-                        int año=obtener.año(fecha);
+                        int dia=Obtener.dia(fecha);
+                        int mes=Obtener.mes(fecha);
+                        int año=Obtener.año(fecha);
 
                         System.out.println("A qué hora quiere su cita? ");
                         String tiempo=scanner.nextLine();
-                        int hora=obtener.hora(tiempo);
-                        int minuto=obtener.min(tiempo);
+                        int hora=Obtener.hora(tiempo);
+                        int minuto=Obtener.min(tiempo);
 
                         cita = LocalDateTime.of(año, mes, dia, hora, minuto);
 
@@ -116,9 +121,9 @@ public class HerramientasConsultas {
                         }
                     }
 
-                    fechasOcupadas.remove(consultaModi.getCita());
+                    fechasOcupadas.remove(consultaModi.getFechaYHora());
                     fechasOcupadas.add(cita);
-                    consultaModi.setCita(cita);
+                    consultaModi.setFechaYHora(cita);
 
                     System.out.println("Fecha modificada exitosamente");
                     break;
@@ -154,7 +159,7 @@ public class HerramientasConsultas {
         System.out.println("Consultas agendadas de "+mascota.getNombre());
         for (Consulta consulta:agendadas.get(mascota)){
             System.out.println("ID: " + consulta.getId());
-            System.out.println("Fecha: " + consulta.getCita());
+            System.out.println("Fecha: " + consulta.getFechaYHora());
             System.out.println("Motivo: " + consulta.getMotivo());
         }
 
@@ -168,7 +173,7 @@ public class HerramientasConsultas {
             }
         }
 
-        fechasOcupadas.remove(consultaEliminar.getCita());
+        fechasOcupadas.remove(consultaEliminar.getFechaYHora());
         agendadas.get(mascota).remove(consultaEliminar);
     }
 
@@ -185,7 +190,7 @@ public class HerramientasConsultas {
             historial.put(mascota, consultasHistorial);
         }
 
-        fechasOcupadas.remove(consulta.getCita());
+        fechasOcupadas.remove(consulta.getFechaYHora());
 
         System.out.println("Consulta transferida al historial :D");
     }

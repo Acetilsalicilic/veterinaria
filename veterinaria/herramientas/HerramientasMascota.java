@@ -1,3 +1,8 @@
+package veterinaria.herramientas;
+
+import veterinaria.entidades.Dueño;
+import veterinaria.entidades.Mascota;
+
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -18,9 +23,9 @@ public class HerramientasMascota {
 
         System.out.print("Fecha de nacimiento (dd/mm/yy) : ");
         String fecha = scanner.nextLine();
-        int dia=obtener.dia(fecha);
-        int mes=obtener.mes(fecha);
-        int año=obtener.año(fecha);
+        int dia=Obtener.dia(fecha);
+        int mes=Obtener.mes(fecha);
+        int año=Obtener.año(fecha);
 
         LocalDate fechaNacimiento = LocalDate.of(año, mes, dia);
 
@@ -42,7 +47,7 @@ public class HerramientasMascota {
         System.out.print("Escribe el id de la mascota que quieras dar de baja: ");
         int id= scanner.nextInt();
 
-        Mascota mascotaBaja;
+        Mascota mascotaBaja = null;
         for (Mascota mascota:dueño.getMascotas()){
             if (mascota.getId()==id){
                 mascotaBaja=mascota;
@@ -67,7 +72,7 @@ public class HerramientasMascota {
         System.out.print("Escribe el id de la mascota que quieres modificar: ");
         int id= scanner.nextInt();
 
-        Mascota mascotaNew;
+        Mascota mascotaNew = null;
         for (Mascota mascota:dueño.getMascotas()){
             if (mascota.getId()==id){
                 mascotaNew=mascota;

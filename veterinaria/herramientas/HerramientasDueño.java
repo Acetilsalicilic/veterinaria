@@ -1,3 +1,7 @@
+package veterinaria.herramientas;
+
+import veterinaria.entidades.Dueño;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -68,25 +72,25 @@ public class HerramientasDueño {
                 case 2:
                     System.out.print("Nuevo telefono: ");
                     String telefono = scanner.nextLine();
-                    dueño.setTelefono(telefono);
+                    dueño.setTeléfono(telefono);
                     System.out.println("Telefono modificado a: " + telefono);
                     break;
                 case 3:
                     System.out.print("Nueva dirección: ");
                     String direccion = scanner.nextLine();
-                    dueño.setDireccion(direccion);
+                    dueño.setDirección(direccion);
                     System.out.println("Dirección modificada a: " + direccion);
                     break;
                 case 4:
                     System.out.print("Nuevo telefono de emergencia: ");
                     String telEmergencia = scanner.nextLine();
-                    dueño.setTelEmergencia(telEmergencia);
+                    dueño.setTelefonoDeEmergencia(telEmergencia);
                     System.out.println("Teléfono de emergencia modificado a: " + telEmergencia);
                     break;
                 case 5:
                     System.out.print("Nuevo nombre de emergencia: ");
                     String nombreEmergencia = scanner.nextLine();
-                    dueño.setnombreEmergencia(nombreEmergencia);
+                    dueño.setNombreDeEmergencia(nombreEmergencia);
                     System.out.println("Nombre de emergencia modificado a: " + nombreEmergencia);
                     break;
                 case 6:

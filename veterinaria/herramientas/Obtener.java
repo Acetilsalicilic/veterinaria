@@ -1,6 +1,6 @@
+package veterinaria.herramientas;
 
-
-public class obtener {
+public class Obtener {
     public static int dia(String fecha){
         String dia = "";
         dia =dia+fecha.charAt(0) + fecha.charAt(1);
