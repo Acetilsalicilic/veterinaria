@@ -26,9 +26,7 @@ public class persistenciaDueño {
             return null;
         }
 
-        // TODO integrar la creación del dueño
-        //return new Dueño(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], datos[5], datos[6]);
-        return null;
+        return new Dueño(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], datos[5], datos[6]);
     }
 
     private static String dueñoObjetoAString(Dueño dueño) {

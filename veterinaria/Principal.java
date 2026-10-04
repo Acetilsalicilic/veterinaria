@@ -10,15 +10,13 @@ import veterinaria.entidades.Veterinario;
 import veterinaria.herramientas.HerramientasDueño;
 import veterinaria.herramientas.HerramientasVeterinario;
 import veterinaria.interfaz.cli.CLI;
+import veterinaria.persistencia.persistenciaInicio;
 
 public class Principal {
 	static void main(String[] args) {
-		HerramientasDueño.internoCrearDueño(new Dueño("Xhuk", "992", "Quintana Raw", "5533", "equisde"));
-		HerramientasDueño.internoGetDueños().getLast().getMascotas().add(new Mascota("Jack",
-				"Perro",
-				"IDK",
-				LocalDate.now(),
-				HerramientasDueño.internoGetDueños().getLast()));
+
+		if (persistenciaInicio.inicializadorDatos())
+			System.exit(1);
 
 		CLI.run();
 

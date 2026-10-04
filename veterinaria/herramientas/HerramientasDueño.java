@@ -17,6 +17,10 @@ public class HerramientasDueño {
         dueños.add(d);
     }
 
+    public static void internoSetDueños(List<Dueño> dueños) {
+        HerramientasDueño.dueños.addAll(dueños);
+    }
+
     public static List<Dueño> internoGetDueños() {
         List<Dueño> activos = new LinkedList<>();
         for (var d : dueños)
@@ -52,6 +56,11 @@ public class HerramientasDueño {
 
         Dueño dueño = new Dueño(nombre, telefono, direccion, telEmergencia, nombreEmergencia);
 
+        if (persistenciaDueño.agregarDueño(dueño)) {
+            System.out.println("ERROR guardando la información");
+            return;
+        }
+
         dueños.add(dueño);
         System.out.println("Registrado exitosamemte :D");
     }
@@ -63,6 +72,9 @@ public class HerramientasDueño {
         System.out.println("Usuario dado de baja: ");
         System.out.println("ID: "+dueñoEliminado.getId());
         System.out.println("Nombre: "+ dueñoEliminado.getNombre());
+
+        if (persistenciaDueño.actualizarDueño(dueñoEliminado))
+            System.out.println("ERROR actualizando la información");
     }
 
     public static void modificarDueño(Scanner scanner, Dueño d){
@@ -121,6 +133,10 @@ public class HerramientasDueño {
                     System.out.println("Opción inválida.");
                     break;
             }
+        }
+
+        if (persistenciaDueño.actualizarDueño(dueño)) {
+            System.out.println("ERROR actualizando la información");
         }
     }
 }

@@ -1,10 +1,13 @@
 package veterinaria.persistencia;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 import veterinaria.entidades.*;
+import veterinaria.herramientas.HerramientasDueño;
 
 public class persistenciaInicio {
     private static LinkedList<Dueño> obteniendoDueños() {
@@ -106,12 +109,28 @@ public class persistenciaInicio {
         return consultas;
     }
 
-    public static void inicializadorDatos() {
-        persistenciaDueño.setArchivo(Path.of("datosDueños.csv"));
-        persistenciaMascota.setArchivo(Path.of("datosMascotas.csv"));
-        persistenciaVeterinario.setArchivo(Path.of("datosVeterinarios.csv"));
-        persistenciaConsulta.setArchivoAgendado(Path.of("datosConsultasAgendadas.csv"));
-        persistenciaConsulta.setArchivoHistorico(Path.of("datosConsultasHistoricas.csv"));
+    public static boolean inicializadorDatos() {
+        var pdueños = Path.of("datosDueños.csv");
+        var pmascotas = Path.of("datosMascotas.csv");
+        var pveterinarios = Path.of("datosVeterinarios.csv");
+        var pagendados = Path.of("datosConsultasAgendadas.csv");
+        var phistorico = Path.of("datosConsultasHistoricas.csv");
+
+        try {
+            pdueños.toFile().createNewFile();
+            pmascotas.toFile().createNewFile();
+            pveterinarios.toFile().createNewFile();
+            pagendados.toFile().createNewFile();
+            phistorico.toFile().createNewFile();
+        } catch (IOException e) {
+            return true;
+        }
+
+        persistenciaDueño.setArchivo(pdueños);
+        persistenciaMascota.setArchivo(pmascotas);
+        persistenciaVeterinario.setArchivo(pveterinarios);
+        persistenciaConsulta.setArchivoAgendado(pagendados);
+        persistenciaConsulta.setArchivoHistorico(phistorico);
 
         LinkedList<Dueño> dueños = obteniendoDueños();
         LinkedList<Mascota> mascotas = obteniendoMascotas(dueños);
@@ -119,31 +138,9 @@ public class persistenciaInicio {
         LinkedList<Consulta> consultasAgendadas = obteniendoConsultasAgendadas(veterinarios, mascotas);
         LinkedList<Consulta> consultasHistoricas = obteniendoConsultasHistoricas(veterinarios, mascotas);
 
-        // A ELIMINAR, ESTO SOLO ES DE PRUEBA
-        /*
-        System.out.println("DUEÑOS");
-        for (Dueño dueño : dueños) {
-            System.out.println("    " + dueño.getId() + " " + dueño.getNombre());
-        }
-        System.out.println("MASCOTAS");
-        for (Mascota mascota : mascotas) {
-            System.out.println("    " + mascota.getId() + " " + mascota.getNombre() + " " + mascota.getDueño().getNombre());
-        }
-        System.out.println("VATERINARIOS");
-        for (Veterinario veterinario : veterinarios) {
-            System.out.println("    " + veterinario.getId() + " " + veterinario.getNombre());
-        }
-        System.out.println("CONSULTASA");
-        for (Consulta consulta : consultasAgendadas) {
-            System.out.println("    " + consulta.getId() + " " + consulta.getMascota().getNombre() + " " + consulta.getVeterinario().getNombre());
+        HerramientasDueño.internoSetDueños(dueños);
 
-        }
-        System.out.println("CONSULTASH");
-        for (Consulta consulta : consultasHistoricas) {
-            System.out.println("    " + consulta.getId() + " " + consulta.getMascota().getNombre() + " " + consulta.getVeterinario().getNombre());
-        }
-        */
-        
+        return false;
     }
 
     public static void main(String[] args) {

@@ -18,16 +18,22 @@ public class Dueño {
 	private String nombreDeEmergencia;
 	private Set<Mascota> mascotas;
 
-	public Dueño(String nombre, String teléfono, String dirección, String telefonoDeEmergencia, String nombreDeEmergencia)
+	public Dueño(int id, boolean activo, String nombre, String teléfono, String dirección, String telefonoDeEmergencia, String nombreDeEmergencia)
 	{
-		// TODO adecuar el constructor para la persistencia
-		//this.activo = activo;
+		this.id = id;
+		this.activo = activo;
 		this.nombre = nombre;
 		this.teléfono = teléfono;
 		this.dirección = dirección;
 		this.telefonoDeEmergencia = telefonoDeEmergencia;
 		this.nombreDeEmergencia = nombreDeEmergencia;
 		mascotas = new HashSet<>();
+
+		ultimoId = Integer.max(id, ultimoId) + 1;
+	}
+
+	public Dueño(String nombre, String teléfono, String dirección, String telefonoDeEmergencia, String nombreDeEmergencia) {
+		this(ultimoId, true, nombre, teléfono, dirección, telefonoDeEmergencia, nombreDeEmergencia);
 	}
 
 	public List<Mascota> getListaMascotas() {
