@@ -66,9 +66,7 @@ public class persistenciaDueño {
             }
         }
 
-        agregarDueño(dueño);
-
-        return true;
+        return agregarDueño(dueño);
     }
 
     // Retorna verdadero si no se puede registrar el Dueño

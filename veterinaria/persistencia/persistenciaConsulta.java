@@ -10,7 +10,7 @@ import veterinaria.entidades.*;
 
 /*
     Formato en el .csv
-    ID,FechaHora,Motivo,Diagnostico,Tratamiento,IDMascota,IDConsulta
+    ID,FechaHora,Motivo,Diagnostico,Tratamiento,IDMascota,IDVeterinario
 */
 
 public class persistenciaConsulta {
@@ -74,8 +74,7 @@ public class persistenciaConsulta {
             }
         }
 
-        agregarConsulta(consulta);
-        return true;
+        return agregarConsulta(consulta);
     }
 
     // Retorna verdadero si no puede agregar la consulta
