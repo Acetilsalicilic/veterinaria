@@ -26,13 +26,15 @@ public class persistenciaDueño {
             return null;
         }
 
-        return new Dueño(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], datos[5], datos[6]);
+        // TODO integrar la creación del dueño
+        //return new Dueño(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], datos[5], datos[6]);
+        return null;
     }
 
     private static String dueñoObjetoAString(Dueño dueño) {
         LinkedList<String> camposDueño = new LinkedList<String>();
         camposDueño.add(String.valueOf(dueño.getId()));
-        camposDueño.add(String.valueOf(dueño.getActivo()));
+        camposDueño.add(String.valueOf(dueño.isActivo()));
         camposDueño.add(dueño.getNombre());
         camposDueño.add(dueño.getTeléfono());
         camposDueño.add(dueño.getDirección());

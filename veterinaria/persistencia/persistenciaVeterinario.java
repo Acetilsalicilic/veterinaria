@@ -26,13 +26,15 @@ public class persistenciaVeterinario {
             return null;
         }
 
-        return new Veterinario(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3]);
+        // TODO adecuar
+        //return new Veterinario(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3]);
+        return null;
     }
 
     private static String veterinarioObjetoAString(Veterinario veterinario) {
         LinkedList<String> camposVeterinario = new LinkedList<String>();
         camposVeterinario.add(String.valueOf(veterinario.getId()));
-        camposVeterinario.add(String.valueOf(veterinario.getActivo()));
+        camposVeterinario.add(String.valueOf(veterinario.isActivo()));
         camposVeterinario.add(veterinario.getNombre());
         camposVeterinario.add(veterinario.getEspecialidad());
         return String.join(",", camposVeterinario);

@@ -18,10 +18,10 @@ public class Dueño {
 	private String nombreDeEmergencia;
 	private Set<Mascota> mascotas;
 
-	public Dueño(int id, boolean activo, String nombre, String teléfono, String dirección, String telefonoDeEmergencia, String nombreDeEmergencia)
+	public Dueño(String nombre, String teléfono, String dirección, String telefonoDeEmergencia, String nombreDeEmergencia)
 	{
-		this.id = id;
-		this.activo = activo;
+		// TODO adecuar el constructor para la persistencia
+		//this.activo = activo;
 		this.nombre = nombre;
 		this.teléfono = teléfono;
 		this.dirección = dirección;
@@ -30,11 +30,19 @@ public class Dueño {
 		mascotas = new HashSet<>();
 	}
 
+	public List<Mascota> getListaMascotas() {
+		return new LinkedList<>(mascotas);
+	}
+
 	public int getId() {
 		return id;
 	}
 
-	public Boolean getActivo() {
+	public void setActivo(boolean v) {
+		this.activo = v;
+	}
+
+	public Boolean isActivo() {
 		return activo;
 	}
 
@@ -64,5 +72,25 @@ public class Dueño {
 
 	public void agregarMascota(Mascota mascota) {
 		mascotas.add(mascota);
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setTeléfono(String teléfono) {
+		this.teléfono = teléfono;
+	}
+
+	public void setDirección(String dirección) {
+		this.dirección = dirección;
+	}
+
+	public void setTelefonoDeEmergencia(String telefonoDeEmergencia) {
+		this.telefonoDeEmergencia = telefonoDeEmergencia;
+	}
+
+	public void setNombreDeEmergencia(String nombreDeEmergencia) {
+		this.nombreDeEmergencia = nombreDeEmergencia;
 	}
 }

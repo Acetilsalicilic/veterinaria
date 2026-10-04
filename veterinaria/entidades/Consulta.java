@@ -11,13 +11,20 @@ public class Consulta {
 	private Mascota mascota;
 	private Veterinario veterinario;
 
-	public Consulta(int id, LocalDateTime fechaYHora, String motivo, String diagnóstico, String tratamiento, Mascota mascota)
+	public Consulta(LocalDateTime fechaYHora, String motivo, String diagnóstico, String tratamiento, Mascota mascota)
 	{
-		this.id = id;
+		// TODO adecuar el constructor para la persistencia
+		//this.id = id;
 		this.fechaYHora = fechaYHora;
 		this.motivo = motivo;
 		this.diagnóstico = diagnóstico;
 		this.tratamiento = tratamiento;
+		this.mascota = mascota;
+	}
+
+	public Consulta(LocalDateTime fechaYHora, String motivo, Mascota mascota) {
+		this.fechaYHora = fechaYHora;
+		this.motivo = motivo;
 		this.mascota = mascota;
 	}
 
@@ -56,6 +63,21 @@ public class Consulta {
 		this.veterinario = veterinario;
 	}
 
+	public void setFechaYHora(LocalDateTime fechaYHora) {
+		this.fechaYHora = fechaYHora;
+	}
+
+	public void setMotivo(String motivo) {
+		this.motivo = motivo;
+	}
+
+	public void setDiagnóstico(String diagnóstico) {
+		this.diagnóstico = diagnóstico;
+	}
+
+	public void setTratamiento(String tratamiento) {
+		this.tratamiento = tratamiento;
+	}
 }
 
 

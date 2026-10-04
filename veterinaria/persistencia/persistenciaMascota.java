@@ -29,13 +29,15 @@ public class persistenciaMascota {
             return null;
         }
 
-        return new Mascota(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], LocalDateTime.parse(datos[5]), null);
+        // TODO integrar la persistencia
+        //return new Mascota(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], LocalDateTime.parse(datos[5]), null);
+        return null;
     }
 
     private static String mascotaObjetoAString(Mascota mascota) {
         LinkedList<String> camposMascota = new LinkedList<String>();
         camposMascota.add(String.valueOf(mascota.getId()));
-        camposMascota.add(String.valueOf(mascota.getActivo()));
+        camposMascota.add(String.valueOf(mascota.isActivo()));
         camposMascota.add(mascota.getNombre());
         camposMascota.add(mascota.getEspecie());
         camposMascota.add(mascota.getRaza());
