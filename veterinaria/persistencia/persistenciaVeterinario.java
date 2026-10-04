@@ -30,16 +30,15 @@ public class persistenciaVeterinario {
     }
 
     private static String veterinarioObjetoAString(Veterinario veterinario) {
-        LinkedList<String> camposDueño = new LinkedList<String>();
-        camposDueño.add(String.valueOf(veterinario.getId()));
-        camposDueño.add(String.valueOf(veterinario.getActivo()));
-        camposDueño.add(veterinario.getNombre());
-        camposDueño.add(veterinario.getEspecialidad());
-
-        return String.join(",", camposDueño);
+        LinkedList<String> camposVeterinario = new LinkedList<String>();
+        camposVeterinario.add(String.valueOf(veterinario.getId()));
+        camposVeterinario.add(String.valueOf(veterinario.getActivo()));
+        camposVeterinario.add(veterinario.getNombre());
+        camposVeterinario.add(veterinario.getEspecialidad());
+        return String.join(",", camposVeterinario);
     }
     
-    // Retorna verdadero si no encuentra un veterinario con el ID, lo cuál nunca debería pasar
+    // Retorna verdadero si no pudo actualizar el veterinario
     public static boolean actualizarVeterinario(Veterinario veterinario) {
         List<String> lineas;
 
@@ -48,13 +47,11 @@ public class persistenciaVeterinario {
         } catch (Exception e) {
             return true;
         }
-
-        String strVeterinarioActualizado = veterinarioObjetoAString(veterinario);
         
         for(int i = 0; i < lineas.size(); i++) {
-            String[] datos = lineas.get(i).split(",");
+            String[] datos = lineas.get(i).split(",", -1);
             if(Integer.valueOf(datos[0]) == veterinario.getId()) {
-                lineas.set(i, strVeterinarioActualizado);
+                lineas.set(i, veterinarioObjetoAString(veterinario));
 
                 try {
                     Files.write(archivo, lineas);
@@ -70,9 +67,9 @@ public class persistenciaVeterinario {
         return true;
     }
 
+    // Retrona verdadero si no pudo agregar el veterinario
     public static boolean agregarVeterinario(Veterinario veterinario) {
         List<String> lineas;
-
         try {
             lineas = Files.readAllLines(archivo);
         } catch (Exception e) {
@@ -90,6 +87,7 @@ public class persistenciaVeterinario {
         return false;
     }
 
+    // Retorna una lista vacia si no pudo obtener los veterinarios
     public static LinkedList<Veterinario> obteniendoVeterinarios() {
         List<String> lineas;
 

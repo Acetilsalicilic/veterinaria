@@ -42,7 +42,7 @@ public class persistenciaDueño {
         return String.join(",", camposDueño);
     }
 
-    // Retorna true si no se puede actualizar el Dueño
+    // Retorna verdadero si no se puede actualizar el Dueño
     public static boolean actualizarDueño(Dueño dueño) {
         List<String> lineas;
         try {
@@ -52,7 +52,7 @@ public class persistenciaDueño {
         }
         
         for(int i = 0; i < lineas.size(); i++) {
-            String[] datos = lineas.get(i).split(",");
+            String[] datos = lineas.get(i).split(",", -1);
             if(Integer.valueOf(datos[0]) == dueño.getId()) {
                 lineas.set(i, dueñoObjetoAString(dueño));
                 
@@ -66,13 +66,13 @@ public class persistenciaDueño {
             }
         }
 
-        registrarDueño(dueño);
+        agregarDueño(dueño);
 
         return true;
     }
 
-    // Retorna true si no se puede registrar el Dueño
-    public static boolean registrarDueño(Dueño dueño) {
+    // Retorna verdadero si no se puede registrar el Dueño
+    public static boolean agregarDueño(Dueño dueño) {
         List<String> lineas;
 
         try {
@@ -92,6 +92,7 @@ public class persistenciaDueño {
         return false;
     }
 
+    // Retorna una lista vacia si no pudo obtener los dueños
     public static LinkedList<Dueño> obteniendoDueños() {
         List<String> lineas;
 
@@ -105,9 +106,8 @@ public class persistenciaDueño {
 
         for(String linea : lineas) {
             Dueño dueño = dueñoStringAObjecto(linea);
-            if (dueño != null) {
+            if (dueño != null)
                 dueños.add(dueño);
-            }
         }
 
         return dueños;

@@ -12,8 +12,8 @@ public class persistenciaInicio {
         persistenciaDueño.setArchivo(Path.of("datosDueños.csv"));
         persistenciaMascota.setArchivo(Path.of("datosMascotas.csv"));
         persistenciaVeterinario.setArchivo(Path.of("datosVeterinarios.csv"));
-        persistenciaConsulta.setArchivo(Path.of("datosConsultas.csv"));
-
+        persistenciaConsulta.setArchivoAgendado(Path.of("datosConsultasAgendadas.csv"));
+        persistenciaConsulta.setArchivoHistorico(Path.of("datosConsultasHistoricas.csv"));
 
         ArrayList<Integer> dueñosMascota = new ArrayList<>();
         ArrayList<Integer> MascotaConsulta = new ArrayList<>();

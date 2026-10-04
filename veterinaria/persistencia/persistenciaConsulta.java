@@ -1,8 +1,6 @@
 package veterinaria.persistencia;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,107 +14,18 @@ import veterinaria.entidades.*;
 */
 
 public class persistenciaConsulta {
-    private static Path archivo;
+    private static Path archivoHistorico;
+    private static Path archivoAgendado;
 
-    public static void setArchivo(Path archivo) {
-        persistenciaConsulta.archivo = archivo;
+    public static void setArchivoAgendado(Path archivoAgendado) {
+        persistenciaConsulta.archivoAgendado = archivoAgendado;
     }
 
-    // Retorna verdadero si no encuentra un Consulta con el ID, lo cuál nunca debería pasar
-    public static boolean actualizarConsulta(Consulta consulta) throws IOException {
-        List<String> lineas = Files.readAllLines(archivo);
-
-        ArrayList<String> consultaActualizado = new ArrayList<String>();
-        consultaActualizado.add(String.valueOf(consulta.getId()));
-        consultaActualizado.add(String.valueOf(consulta.getFechaYHora()));
-        consultaActualizado.add(consulta.getMotivo());
-        consultaActualizado.add(consulta.getDiagnóstico());
-        consultaActualizado.add(consulta.getTratamiento());
-        consultaActualizado.add(String.valueOf(consulta.getMascota().getId()));
-        consultaActualizado.add(String.valueOf(consulta.getVeterinario().getId()));
-        
-        for(int i = 0; i < lineas.size(); i++) {
-            String[] datos = lineas.get(i).split(",");
-            if(Integer.valueOf(datos[0]) == consulta.getId()) {
-                lineas.set(i, String.join(",", consultaActualizado));
-                Files.write(archivo, lineas);
-                System.out.println("Se actualiza elemento");
-                return false;
-            }
-        }
-
-        agregarConsulta(consulta);
-        return true;
+    public static void setArchivoHistorico(Path archivoHistorico) {
+        persistenciaConsulta.archivoHistorico = archivoHistorico;
     }
 
-    public static void agregarConsulta(Consulta consulta) throws IOException {
-        List<String> lineas = Files.readAllLines(archivo);
-
-        ArrayList<String> consultaActualizado = new ArrayList<String>();
-        consultaActualizado.add(String.valueOf(consulta.getId()));
-        consultaActualizado.add(String.valueOf(consulta.getFechaYHora()));
-        consultaActualizado.add(consulta.getMotivo());
-        consultaActualizado.add(consulta.getDiagnóstico());
-        consultaActualizado.add(consulta.getTratamiento());
-        consultaActualizado.add(String.valueOf(consulta.getMascota().getId()));
-        consultaActualizado.add(String.valueOf(consulta.getVeterinario().getId()));
-        
-        lineas.add(String.join(",", consultaActualizado));
-
-        Files.write(archivo, lineas);
-        System.out.println("Se agrega elemento");
-    }
-
-    public static boolean eliminarConsulta(Consulta consulta) throws IOException {
-        Path archivo = Path.of("datosConsulta.csv");
-        List<String> lineas = Files.readAllLines(archivo);
-
-        ArrayList<String> consultaActualizado = new ArrayList<String>();
-        consultaActualizado.add(String.valueOf(consulta.getId()));
-        consultaActualizado.add(String.valueOf(consulta.getFechaYHora()));
-        consultaActualizado.add(consulta.getMotivo());
-        consultaActualizado.add(consulta.getDiagnóstico());
-        consultaActualizado.add(consulta.getTratamiento());
-        consultaActualizado.add(String.valueOf(consulta.getMascota().getId()));
-        
-        for(int i = 0; i < lineas.size(); i++) {
-            String[] datos = lineas.get(i).split(",");
-            if(Integer.valueOf(datos[0]) == consulta.getId()) {
-                lineas.remove(i);
-                Files.write(archivo, lineas);
-                System.out.println("Se elimino elemento");
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static LinkedList<Consulta> obtenerConsultas(ArrayList<Integer> mascotasID, ArrayList<Integer> veterinariosID) {
-        List<String> lineas;
-
-        try {
-            lineas = Files.readAllLines(archivo);
-        } catch (Exception e) {
-            return new LinkedList<Consulta>();
-        }
-
-        LinkedList<Consulta> consultas = new LinkedList<Consulta>();
-        
-        for (String linea : lineas) {
-            Consulta nuevaConsulta = crearConsulta(linea);
-            if(nuevaConsulta != null)
-            {
-                consultas.add(nuevaConsulta);
-                String[] datos = linea.split(",", -1);
-                mascotasID.add(Integer.valueOf(datos[5]));
-                veterinariosID.add(Integer.valueOf(datos[6]));
-            }
-        }
-
-        return consultas;
-    }
-
-    private static Consulta crearConsulta(String strConsulta) {
+    private static Consulta consultaStringAObjeto(String strConsulta) {
         String[] datos = strConsulta.split(",", -1);
 
         if(datos.length < 7)
@@ -126,5 +35,165 @@ public class persistenciaConsulta {
         }
 
         return new Consulta(Integer.valueOf(datos[0]), LocalDateTime.parse(datos[1]), datos[2], datos[3], datos[4], null);
+    }
+
+    private static String consultaObjetoAString(Consulta consulta) {
+        LinkedList<String> camposConsulta = new LinkedList<String>();
+        camposConsulta.add(String.valueOf(consulta.getId()));
+        camposConsulta.add(String.valueOf(consulta.getFechaYHora()));
+        camposConsulta.add(consulta.getMotivo());
+        camposConsulta.add(consulta.getDiagnóstico());
+        camposConsulta.add(consulta.getTratamiento());
+        camposConsulta.add(String.valueOf(consulta.getMascota().getId()));
+        camposConsulta.add(String.valueOf(consulta.getVeterinario().getId()));
+
+        return String.join(",", camposConsulta);
+    }
+
+    // Retorna verdadero si no puede actualizar la consulta
+    public static boolean actualizarConsulta(Consulta consulta) {
+        List<String> lineas;
+        try {
+            lineas = Files.readAllLines(archivoAgendado);
+        } catch (Exception e) {
+            return true;
+        }
+        
+        for(int i = 0; i < lineas.size(); i++) {
+            String[] datos = lineas.get(i).split(",", -1);
+            if(Integer.valueOf(datos[0]) == consulta.getId()) {
+                lineas.set(i, consultaObjetoAString(consulta));
+
+                try {
+                    Files.write(archivoAgendado, lineas);
+                } catch (Exception e) {
+                    return true;
+                }
+                
+                return false;
+            }
+        }
+
+        agregarConsulta(consulta);
+        return true;
+    }
+
+    // Retorna verdadero si no puede agregar la consulta
+    public static boolean agregarConsulta(Consulta consulta) {
+        List<String> lineas;
+        try {
+            lineas = Files.readAllLines(archivoAgendado);
+        } catch (Exception e) {
+            return true;
+        }
+
+        lineas.add(consultaObjetoAString(consulta));
+
+        try {
+            Files.write(archivoAgendado, lineas);
+        } catch (Exception e) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    // Retorna verdadero si no puede eliminar la consulta
+    public static boolean eliminarConsulta(Consulta consulta) {
+        List<String> lineas;
+        try {
+            lineas = Files.readAllLines(archivoAgendado);
+        } catch (Exception e) {
+            return true;
+        }
+        
+        for(int i = 0; i < lineas.size(); i++) {
+            String[] datos = lineas.get(i).split(",", -1);
+            if(Integer.valueOf(datos[0]) == consulta.getId()) {
+                lineas.remove(i);
+                
+                try {
+                    Files.write(archivoAgendado, lineas);
+                } catch (Exception e) {
+                    return true;
+                }
+
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Retorna una lista vacia si no puede obtener las consultas
+    public static LinkedList<Consulta> obtenerConsultasAgendadas(ArrayList<Integer> mascotasIDs, ArrayList<Integer> veterinariosIDs) {
+        List<String> lineas;
+        try {
+            lineas = Files.readAllLines(archivoAgendado);
+        } catch (Exception e) {
+            return new LinkedList<Consulta>();
+        }
+
+        LinkedList<Consulta> consultas = new LinkedList<Consulta>();
+        
+        for (String linea : lineas) {
+            Consulta nuevaConsulta = consultaStringAObjeto(linea);
+            if(nuevaConsulta != null) {
+                consultas.add(nuevaConsulta);
+                String[] datos = linea.split(",", -1);
+                mascotasIDs.add(Integer.valueOf(datos[5]));
+                veterinariosIDs.add(Integer.valueOf(datos[6]));
+            }
+        }
+
+        return consultas;
+    }
+
+    // Retorna una lista vacia si no puede obtener las consultas
+    public static LinkedList<Consulta> obtenerConsultasHistoricas(ArrayList<Integer> mascotasIDs, ArrayList<Integer> veterinariosIDs) {
+        List<String> lineas;
+        try {
+            lineas = Files.readAllLines(archivoHistorico);
+        } catch (Exception e) {
+            return new LinkedList<Consulta>();
+        }
+
+        LinkedList<Consulta> consultas = new LinkedList<Consulta>();
+        
+        for (String linea : lineas) {
+            Consulta nuevaConsulta = consultaStringAObjeto(linea);
+            if(nuevaConsulta != null) {
+                consultas.add(nuevaConsulta);
+                String[] datos = linea.split(",", -1);
+                mascotasIDs.add(Integer.valueOf(datos[5]));
+                veterinariosIDs.add(Integer.valueOf(datos[6]));
+            }
+        }
+
+        return consultas;
+    }
+
+    // Retorna verdadero si no se pudo mover la consulta al historico
+    public static boolean moverAHistorico(Consulta consulta) {
+        if(eliminarConsulta(consulta))
+            return true;
+
+        List<String> lineas;
+        try {
+            lineas = Files.readAllLines(archivoHistorico);
+        } catch (Exception e) {
+            agregarConsulta(consulta);
+            return true;
+        }
+
+        lineas.add(consultaObjetoAString(consulta));
+
+        try {
+            Files.write(archivoHistorico, lineas);
+        } catch (Exception e) {
+            agregarConsulta(consulta);
+            return true;
+        }
+        
+        return false;
     }
 }
