@@ -84,10 +84,8 @@ public class persistenciaDueño {
         } catch (Exception e) {
             return true;
         }
-
-        String strDueñoActualizado = dueñoObjetoAString(dueño);
         
-        lineas.add(strDueñoActualizado);
+        lineas.add(dueñoObjetoAString(dueño));
 
         try {
             Files.write(archivo, lineas);

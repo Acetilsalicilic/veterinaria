@@ -1,8 +1,6 @@
 package veterinaria.persistencia;
 
-import java.io.IOException;
 import java.nio.file.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,23 +18,51 @@ public class persistenciaVeterinario {
     public static void setArchivo(Path archivo) {
         persistenciaVeterinario.archivo = archivo;
     }
+
+    private static Veterinario veterinarioStringAObjecto(String strVeterinario) {
+        String[] datos = strVeterinario.split(",", -1);
+
+        if(datos.length < 4) {
+            System.err.println("Formato invalido");
+            return null;
+        }
+
+        return new Veterinario(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3]);
+    }
+
+    private static String veterinarioObjetoAString(Veterinario veterinario) {
+        ArrayList<String> camposDueño = new ArrayList<String>();
+        camposDueño.add(String.valueOf(veterinario.getId()));
+        camposDueño.add(String.valueOf(veterinario.getActivo()));
+        camposDueño.add(veterinario.getNombre());
+        camposDueño.add(veterinario.getEspecialidad());
+
+        return String.join(",", camposDueño);
+    }
     
     // Retorna verdadero si no encuentra un veterinario con el ID, lo cuál nunca debería pasar
-    public static boolean actualizarVeterinario(Veterinario veterinario) throws IOException {
-        List<String> lineas = Files.readAllLines(archivo);
+    public static boolean actualizarVeterinario(Veterinario veterinario) {
+        List<String> lineas;
 
-        ArrayList<String> veterinarioActualizado = new ArrayList<String>();
-        veterinarioActualizado.add(String.valueOf(veterinario.getId()));
-        veterinarioActualizado.add(String.valueOf(veterinario.getActivo()));
-        veterinarioActualizado.add(veterinario.getNombre());
-        veterinarioActualizado.add(veterinario.getEspecialidad());
+        try {
+            lineas = Files.readAllLines(archivo);
+        } catch (Exception e) {
+            return true;
+        }
+
+        String strVeterinarioActualizado = veterinarioObjetoAString(veterinario);
         
         for(int i = 0; i < lineas.size(); i++) {
             String[] datos = lineas.get(i).split(",");
             if(Integer.valueOf(datos[0]) == veterinario.getId()) {
-                lineas.set(i, String.join(",", veterinarioActualizado));
-                Files.write(archivo, lineas);
-                System.out.println("Se actualiza elemento");
+                lineas.set(i, strVeterinarioActualizado);
+
+                try {
+                    Files.write(archivo, lineas);
+                } catch (Exception e) {
+                    return true;
+                }
+                
                 return false;
             }
         }
@@ -45,19 +71,24 @@ public class persistenciaVeterinario {
         return true;
     }
 
-    public static void agregarVeterinario(Veterinario veterinario) throws IOException {
-        List<String> lineas = Files.readAllLines(archivo);
+    public static boolean agregarVeterinario(Veterinario veterinario) {
+        List<String> lineas;
 
-        ArrayList<String> veterinarioNuevo = new ArrayList<String>();
-        veterinarioNuevo.add(String.valueOf(veterinario.getId()));
-        veterinarioNuevo.add(String.valueOf(veterinario.getActivo()));
-        veterinarioNuevo.add(veterinario.getNombre());
-        veterinarioNuevo.add(veterinario.getEspecialidad());
+        try {
+            lineas = Files.readAllLines(archivo);
+        } catch (Exception e) {
+            return true;
+        }
         
-        lineas.add(String.join(",", veterinarioNuevo));
+        lineas.add(veterinarioObjetoAString(veterinario));
 
-        Files.write(archivo, lineas);
-        System.out.println("Se agrega elemento");
+        try {
+            Files.write(archivo, lineas);
+        } catch (Exception e) {
+            return true;
+        }
+        
+        return false;
     }
 
     public static LinkedList<Veterinario> obteniendoVeterinarios() {
@@ -72,25 +103,12 @@ public class persistenciaVeterinario {
         LinkedList<Veterinario> veterinarios = new LinkedList<Veterinario>();
         
         for (String linea : lineas) {
-            Veterinario nuevoVeterinario = crearVeterinario(linea);
+            Veterinario nuevoVeterinario = veterinarioStringAObjecto(linea);
             if(nuevoVeterinario != null)
-            {
                 veterinarios.add(nuevoVeterinario);
-            }
+            
         }
 
         return veterinarios;
-    }
-
-    private static Veterinario crearVeterinario(String strVeterinario) {
-        String[] datos = strVeterinario.split(",", -1);
-
-        if(datos.length < 4)
-        {
-            System.err.println("Formato invalido");
-            return null;
-        }
-
-        return new Veterinario(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3]);
     }
 }
