@@ -3,7 +3,7 @@ package veterinaria.persistencia;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import veterinaria.entidades.*;
@@ -29,9 +29,7 @@ public class persistenciaMascota {
             return null;
         }
 
-        // TODO integrar la persistencia
-        //return new Mascota(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], LocalDateTime.parse(datos[5]), null);
-        return null;
+        return new Mascota(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], LocalDate.parse(datos[5]));
     }
 
     private static String mascotaObjetoAString(Mascota mascota) {

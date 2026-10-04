@@ -159,8 +159,8 @@ public class ListaMascota extends SubMenu {
         switch (opt) {
             case 0 -> salir = true;
             case 1 -> acciónMostrarDetalleMascota(mascota);
-            case 2 -> HerramientasMascota.modificarMascota(sc, dueño);
-            case 3 -> HerramientasMascota.bajaMascota(sc, dueño);
+            case 2 -> HerramientasMascota.modificarMascota(sc, mascota);
+            case 3 -> HerramientasMascota.bajaMascota(sc, mascota);
             case 4 -> { new ListaConsulta(sc, formatoPrompt, waiting, mensajeOpcionInválida, mascota).iniciar(); }
             default -> System.out.println(mensajeOpcionInválida);
         }

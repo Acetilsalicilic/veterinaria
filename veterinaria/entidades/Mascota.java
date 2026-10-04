@@ -14,15 +14,33 @@ public class Mascota {
 	private LocalDate fechaNacimiento;
 	private Dueño dueño;
 
-	public Mascota(String nombre, String especie, String raza, LocalDate fechaNacimiento, Dueño dueño) {
-		this.activo = true;
+	@Override
+	public String toString() {
+		return "Mascota{" +
+				"fechaNacimiento=" + fechaNacimiento +
+				", raza='" + raza + '\'' +
+				", especie='" + especie + '\'' +
+				", nombre='" + nombre + '\'' +
+				", activo=" + activo +
+				", id=" + id +
+				", idDueño=" + dueño.getId() +
+				'}';
+	}
+
+	public Mascota(int id, boolean activo, String nombre, String especie, String raza, LocalDate fechaNacimiento) {
+		this.id = id;
+		this.activo = activo;
 		this.nombre = nombre;
 		this.especie = especie;
 		this.raza = raza;
 		this.fechaNacimiento = fechaNacimiento;
-		this.dueño = dueño;
 
-		this.id = ultimoId++;
+		ultimoId = Integer.max(ultimoId, id) + 1;
+	}
+
+	public Mascota(String nombre, String especie, String raza, LocalDate fechaNacimiento, Dueño dueño) {
+		this(ultimoId, true, nombre, especie, raza, fechaNacimiento);
+		this.dueño = dueño;
 	}
 
 	public long getEdad() {

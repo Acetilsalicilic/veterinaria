@@ -138,14 +138,14 @@ public class persistenciaInicio {
         LinkedList<Consulta> consultasAgendadas = obteniendoConsultasAgendadas(veterinarios, mascotas);
         LinkedList<Consulta> consultasHistoricas = obteniendoConsultasHistoricas(veterinarios, mascotas);
 
+        for (var m : mascotas) {
+            System.err.println(m);
+            m.getDueño().getMascotas().add(m);
+        }
+
         HerramientasDueño.internoSetDueños(dueños);
 
         return false;
     }
 
-    public static void main(String[] args) {
-        inicializadorDatos();
-    }
-
-    
 }
