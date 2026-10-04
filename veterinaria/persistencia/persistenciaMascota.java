@@ -1,6 +1,5 @@
 package veterinaria.persistencia;
 
-import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -21,7 +20,7 @@ public class persistenciaMascota {
         persistenciaMascota.archivo = archivo;
     }
 
-    public static Mascota mascotaStringAObjeto(String strMascota) {
+    private static Mascota mascotaStringAObjeto(String strMascota) {
         String[] datos = strMascota.split(",", -1);
 
         if(datos.length < 7)
@@ -33,17 +32,17 @@ public class persistenciaMascota {
         return new Mascota(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], LocalDateTime.parse(datos[5]), null);
     }
 
-    public static String mascotaObjetoAString(Mascota mascota) {
-        LinkedList<String> mascotaActualizado = new LinkedList<String>();
-        mascotaActualizado.add(String.valueOf(mascota.getId()));
-        mascotaActualizado.add(String.valueOf(mascota.getActivo()));
-        mascotaActualizado.add(mascota.getNombre());
-        mascotaActualizado.add(mascota.getEspecie());
-        mascotaActualizado.add(mascota.getRaza());
-        mascotaActualizado.add(String.valueOf(mascota.getFechaNacimiento()));
-        mascotaActualizado.add(String.valueOf(mascota.getDueño().getId()));
+    private static String mascotaObjetoAString(Mascota mascota) {
+        LinkedList<String> camposMascota = new LinkedList<String>();
+        camposMascota.add(String.valueOf(mascota.getId()));
+        camposMascota.add(String.valueOf(mascota.getActivo()));
+        camposMascota.add(mascota.getNombre());
+        camposMascota.add(mascota.getEspecie());
+        camposMascota.add(mascota.getRaza());
+        camposMascota.add(String.valueOf(mascota.getFechaNacimiento()));
+        camposMascota.add(String.valueOf(mascota.getDueño().getId()));
 
-        return String.join(",", mascotaActualizado);
+        return String.join(",", camposMascota);
     }
 
     // Retorna verdadero si no pudo actualizar a la mascota
@@ -56,7 +55,7 @@ public class persistenciaMascota {
         }
         
         for(int i = 0; i < lineas.size(); i++) {
-            String[] datos = lineas.get(i).split(",");
+            String[] datos = lineas.get(i).split(",", -1);
             if(Integer.valueOf(datos[0]) == mascota.getId()) {
                 lineas.set(i, mascotaObjetoAString(mascota));
                 
@@ -66,7 +65,6 @@ public class persistenciaMascota {
                     return true;
                 }
 
-                System.out.println("Se actualiza elemento");
                 return false;
             }
         }
@@ -91,10 +89,11 @@ public class persistenciaMascota {
         } catch (Exception e) {
             return true;
         }
+        
         return false;
     }
 
-    // Retorna una lista vacia si no pudo leer el archivo de persistencia;
+    // Retorna una lista vacia si no pudo leer el archivo de persistencia
     public static LinkedList<Mascota> obteniendoMascotas(ArrayList<Integer> dueñosIDs) {
         List<String> lineas;
         try {
