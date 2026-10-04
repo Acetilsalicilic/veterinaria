@@ -1,7 +1,6 @@
 package veterinaria.persistencia;
 
 import java.nio.file.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class persistenciaDueño {
     }
 
     private static String dueñoObjetoAString(Dueño dueño) {
-        ArrayList<String> camposDueño = new ArrayList<String>();
+        LinkedList<String> camposDueño = new LinkedList<String>();
         camposDueño.add(String.valueOf(dueño.getId()));
         camposDueño.add(String.valueOf(dueño.getActivo()));
         camposDueño.add(dueño.getNombre());
@@ -46,19 +45,16 @@ public class persistenciaDueño {
     // Retorna true si no se puede actualizar el Dueño
     public static boolean actualizarDueño(Dueño dueño) {
         List<String> lineas;
-
         try {
             lineas = Files.readAllLines(archivo);
         } catch (Exception e) {
             return true;
         }
-
-        String strDueñoActuelizado = dueñoObjetoAString(dueño);
         
         for(int i = 0; i < lineas.size(); i++) {
             String[] datos = lineas.get(i).split(",");
             if(Integer.valueOf(datos[0]) == dueño.getId()) {
-                lineas.set(i, strDueñoActuelizado);
+                lineas.set(i, dueñoObjetoAString(dueño));
                 
                 try {
                     Files.write(archivo, lineas);
