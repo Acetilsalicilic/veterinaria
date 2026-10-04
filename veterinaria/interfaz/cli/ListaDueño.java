@@ -1,14 +1,10 @@
 package veterinaria.interfaz.cli;
 
-import static veterinaria.utiles.Utiles.maximaLongitudDueños;
-
 import java.util.*;
 
-import veterinaria.Principal;
 import veterinaria.entidades.Dueño;
 import veterinaria.herramientas.HerramientasDueño;
 import veterinaria.utiles.Campo;
-import veterinaria.utiles.Utiles;
 
 public class ListaDueño extends SubMenu {
 	private static final String ENCABEZADO_MENU = """
@@ -87,18 +83,16 @@ public class ListaDueño extends SubMenu {
 		if (id == -1)
 			return;
 
-		// TODO no usar lambdas
-		var posibleDueño = dueños.stream()
-				.filter(d -> d.getId() == id)
-				.findFirst();
-		
-		if (posibleDueño.isEmpty()) {
-			System.out.println("El ID ingresado no existe.");
+		Dueño dueño = null;
+		for (var d : dueños)
+			if (d.getId() == id)
+				dueño = d;
+
+		if (dueño == null) {
+			System.out.println("❌ El ID ingresado no existe.");
 			return;
 		}
-		
-		var dueño = posibleDueño.get();
-		
+
 		System.out.println("Elija una acción:");
 		System.out.print(MENU_ACCIONES_DUEÑO);
 		System.out.printf(formatoPrompt, "id dueño = "+id);
@@ -113,7 +107,6 @@ public class ListaDueño extends SubMenu {
 			case 2 -> HerramientasDueño.modificarDueño(sc, dueño);
 			case 3 -> HerramientasDueño.bajaDueño(dueño);
 			case 4 -> {
-				// TODO esto está bien?
 				new ListaMascota(sc, formatoPrompt, waiting, mensajeOpcionInválida, dueño).iniciar();
 			}
             default -> System.out.println(mensajeOpcionInválida);
@@ -124,25 +117,34 @@ public class ListaDueño extends SubMenu {
 	}
 	
 	private void imprimirTabla(List<Dueño> dueños) {
-		String[] cabeceras = {"ID", "NOMBRE", "TELÉFONO"};
+		String[] cabeceras = {"ID", "NOMBRE", "TELÉFONO", "NO. MASCOTAS"};
 		
 		if (dueños.isEmpty()) {
 			System.out.println("\t# No se encontraron registros para mostrar.");
 			return;
 		}
 
-		// TODO agregar el resto de campos
-		int max_id = Utiles.maximaLongitudDueños(dueños, d -> Integer.toString(d.getId()), cabeceras[0].length());
-		int max_nombre = Utiles.maximaLongitudDueños(dueños, Dueño::getNombre, cabeceras[1].length());
-		int max_telefono = Utiles.maximaLongitudDueños(dueños, Dueño::getTeléfono, cabeceras[2].length());
-		
+		int max_id = cabeceras[0].length();
+		for (var d : dueños)
+			max_id = Integer.max(max_id, Integer.toString(d.getId()).length());
+
+		int max_nombre = cabeceras[1].length();
+		for (var d : dueños)
+			max_nombre = Integer.max(max_nombre, d.getNombre().length());
+
+		int max_telefono = cabeceras[2].length();
+		for (var d : dueños)
+			max_telefono = Integer.max(max_telefono, d.getTeléfono().length());
+
+		int max_no_mascotas = cabeceras[3].length();
+		for (var d : dueños)
+			max_no_mascotas = Integer.max(max_no_mascotas, Integer.toString(d.getMascotas().size()).length());
+
 		var formato = "|%" +
-                max_id +
-                "s|%" +
-                max_nombre +
-                "s|%" +
-                max_telefono +
-                "s|\n";
+                max_id + "s|%" +
+                max_nombre + "s|%" +
+                max_telefono + "s|%" +
+				max_no_mascotas + "s|\n";
 		
 		System.out.printf(formato, (Object[]) cabeceras);
 
@@ -150,7 +152,8 @@ public class ListaDueño extends SubMenu {
 			System.out.printf(formato,
                     d.getId(),
 					d.getNombre(),
-					d.getTeléfono());
+					d.getTeléfono(),
+					d.getMascotas().size());
 		}
 
 		System.out.println("\t# Se encontraron "+dueños.size()+" registros.");
@@ -162,7 +165,10 @@ public class ListaDueño extends SubMenu {
 		info.add(new Campo("ID", dueño.getId()));
 		info.add(new Campo("Nombre", dueño.getNombre()));
 		info.add(new Campo("Teléfono", dueño.getTeléfono()));
-		// TODO mostrar el resto de atributos
+		info.add(new Campo("Dirección", dueño.getDirección()));
+		info.add(new Campo("Teléfono de emergencia", dueño.getTelefonoDeEmergencia()));
+		info.add(new Campo("Nombre de emergencia", dueño.getNombreDeEmergencia()));
+		info.add(new Campo("Mascotas", dueño.getMascotas().size()));
 
 		int maxAncho = 0;
 		for (Campo campo : info)
@@ -171,7 +177,6 @@ public class ListaDueño extends SubMenu {
 		String formatoCampo = "%"+maxAncho+"s: %s\n";
 
 		System.out.println("--- Detalle Dueño ----");
-
 		for (var c : info)
 			System.out.printf(formatoCampo, c.etiqueta, c.valor);
 

@@ -2,6 +2,7 @@ package veterinaria.interfaz.cli;
 
 import veterinaria.entidades.Dueño;
 import veterinaria.entidades.Mascota;
+import veterinaria.herramientas.HerramientasConsultas;
 import veterinaria.herramientas.HerramientasMascota;
 import veterinaria.utiles.Campo;
 
@@ -10,8 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
-
-import static veterinaria.utiles.Utiles.maximaLongitudMascotas;
 
 public class ListaMascota extends SubMenu {
     private final String CABECERA_MENU = """
@@ -74,12 +73,25 @@ public class ListaMascota extends SubMenu {
 
         String[] cabeceras = {"ID", "NOMBRE", "EDAD", "ESPECIE", "RAZA"};
 
-        // TODO no usar lambdas
-        int max_id = maximaLongitudMascotas(mascotas, m -> Integer.toString(m.getId()), cabeceras[0]);
-        int max_nombre = maximaLongitudMascotas(mascotas, Mascota::getNombre, cabeceras[1]);
-        int max_edad = maximaLongitudMascotas(mascotas, m -> Long.toString(m.getEdad()), cabeceras[2]);
-        int max_especie = maximaLongitudMascotas(mascotas, Mascota::getEspecie, cabeceras[3]);
-        int max_raza = maximaLongitudMascotas(mascotas, Mascota::getRaza, cabeceras[4]);
+        int max_id = cabeceras[0].length();
+        for (var m : mascotas)
+            max_id = Integer.max(max_id, Integer.toString(m.getId()).length());
+
+        int max_nombre = cabeceras[1].length();
+        for (var m : mascotas)
+            max_nombre = Integer.max(max_nombre, m.getNombre().length());
+
+        int max_edad = cabeceras[2].length();
+        for (var m : mascotas)
+            max_edad = Integer.max(max_edad, Long.toString(m.getEdad()).length());
+
+        int max_especie = cabeceras[3].length();
+        for (var m : mascotas)
+            max_especie = Integer.max(max_especie, m.getEspecie().length());
+
+        int max_raza = cabeceras[4].length();
+        for (var m : mascotas)
+            max_raza = Integer.max(max_raza, m.getRaza().length());
 
         var formato = "|%" +
                 max_id + "s|%" +
@@ -166,7 +178,7 @@ public class ListaMascota extends SubMenu {
         info.add(new Campo("Fecha de nacimiento", mascota.getFechaNacimiento().format(formatoFecha)));
         info.add(new Campo("Especie", mascota.getEspecie()));
         info.add(new Campo("Raza", mascota.getRaza()));
-        // TODO aladir número de consultas asociadas
+        info.add(new Campo("No. Consultas agendadas", HerramientasConsultas.internoGetConsultasAgendadas(mascota).size()));
 
         int maxAncho = 0;
         for (Campo campo : info)
