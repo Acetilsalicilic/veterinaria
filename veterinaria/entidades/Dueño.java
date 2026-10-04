@@ -21,7 +21,7 @@ public class Dueño {
 	public Dueño(String nombre, String teléfono, String dirección, String telefonoDeEmergencia,
 			String nombreDeEmergencia) {
 		super();
-		this.activo = activo;
+		this.activo = true;
 		this.nombre = nombre;
 		this.teléfono = teléfono;
 		this.dirección = dirección;
@@ -33,14 +33,6 @@ public class Dueño {
 		this.id = ultimoId++;
 	}
 
-	// TODO eliminar este constructor de prueba
-	public Dueño(String nombre, String teléfono) {
-		this.nombre = nombre;
-		this.teléfono = teléfono;
-
-		this.mascotas = new HashSet<>();
-	}
-	
 	public int getId() {
 		return id;
 	}

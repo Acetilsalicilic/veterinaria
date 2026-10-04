@@ -3,18 +3,36 @@ package veterinaria.herramientas;
 import veterinaria.entidades.Dueño;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 public class HerramientasDueño {
     private static List <Dueño> dueños = new ArrayList<>();
-    
+
+    public static void internoCrearDueño(Dueño d) {
+        dueños.add(d);
+    }
+
+    public static List<Dueño> internoGetDueños() {
+        List<Dueño> activos = new LinkedList<>();
+        for (var d : dueños)
+            if (d.isActivo())
+                activos.add(d);
+        return activos;
+    }
+
+    public static List<Dueño> filtrarPorNombre(String nombre) {
+        List<Dueño> filtrados = new LinkedList<>();
+        for (var d : dueños)
+            if (d.getNombre().toLowerCase().contains(nombre.toLowerCase()))
+                filtrados.add(d);
+        return filtrados;
+    }
         
-    public static void crearDueño(){
-        Scanner scanner = new Scanner(System.in);
+    public static void crearDueño(Scanner scanner){
         System.out.println("Ingresa los siguientes datos: ");
         System.out.print("Nombre: ");
-        scanner.nextLine();
         String nombre = scanner.nextLine();
 
         System.out.print("Telefono: ");
@@ -29,14 +47,13 @@ public class HerramientasDueño {
         System.out.print("Nombre del titular del número de emergencia: ");
         String nombreEmergencia = scanner.nextLine();
 
-        Dueño dueño= new Dueño(nombre, telefono, direccion, telEmergencia, nombreEmergencia);
+        Dueño dueño = new Dueño(nombre, telefono, direccion, telEmergencia, nombreEmergencia);
 
         dueños.add(dueño);
         System.out.println("Registrado exitosamemte :D");
     }
 
-    public static void bajaDueño(int id){
-        Dueño dueñoEliminado= dueños.get(id);
+    public static void bajaDueño(Dueño dueñoEliminado){
         dueñoEliminado.setActivo(false);
 
         System.out.println("Baja exitosa");
@@ -45,8 +62,8 @@ public class HerramientasDueño {
         System.out.println("Nombre: "+ dueñoEliminado.getNombre());
     }
 
-    public static void modificarDueño(int id){
-        Scanner scanner = new Scanner(System.in);
+    public static void modificarDueño(Scanner scanner, Dueño d){
+        int id = d.getId();
         boolean top=true;
         Dueño dueño=dueños.get(id);
         while (top){

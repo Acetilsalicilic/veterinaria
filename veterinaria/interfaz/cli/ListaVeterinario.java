@@ -2,6 +2,7 @@ package veterinaria.interfaz.cli;
 
 import veterinaria.Principal;
 import veterinaria.entidades.Veterinario;
+import veterinaria.herramientas.HerramientasVeterinario;
 import veterinaria.utiles.Campo;
 
 import java.util.LinkedList;
@@ -36,7 +37,7 @@ public class ListaVeterinario extends SubMenu {
     public void iniciar() {
         while (true) {
             System.out.println(ENCABEZADO);
-            imprimirTabla(Principal.veterinarios);
+            imprimirTabla(HerramientasVeterinario.internoGetVeterinarios());
             System.out.print(OPCIONES);
             System.out.printf(formatoPrompt, "veterinarios");
             int opt = sc.nextInt();
@@ -45,7 +46,7 @@ public class ListaVeterinario extends SubMenu {
             boolean salir = false;
             switch (opt) {
                 case 0 -> salir = true;
-                case 1 -> acciónBuscarVeterinario(Principal.veterinarios);
+                case 1 -> acciónBuscarVeterinario(HerramientasVeterinario.internoGetVeterinarios());
                 default -> System.out.println(mensajeOpcionInválida);
             }
             if (salir) break;
@@ -139,10 +140,7 @@ public class ListaVeterinario extends SubMenu {
         switch (opt) {
             case 0 -> salir = true;
             case 1 -> acciónMostrarDetalleVeterinario(veterinario);
-            case 3 -> {
-                Principal.veterinarios.remove(veterinario);
-                System.out.println("Eliminado con éxito.");
-            }
+            case 3 -> HerramientasVeterinario.bajaVeterinario(veterinario);
             default -> System.out.println(mensajeOpcionInválida);
         }
         if (salir)

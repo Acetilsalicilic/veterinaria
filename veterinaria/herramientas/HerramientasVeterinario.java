@@ -9,6 +9,10 @@ import java.util.Scanner;
 public class HerramientasVeterinario {
     private static List<Veterinario> veterinarios = new ArrayList<>();
 
+    public static List<Veterinario> internoGetVeterinarios() {
+        return veterinarios;
+    }
+
     public static void crearVeterinario() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Ingresa los siguientes datos: ");
@@ -24,8 +28,7 @@ public class HerramientasVeterinario {
         System.out.println("Veterinario registrado exitosamente :D");
     }
 
-    public static void bajaVeterinario(int id){
-        Veterinario veterinarioEliminado= veterinarios.get(id);
+    public static void bajaVeterinario(Veterinario veterinarioEliminado){
         veterinarioEliminado.setActivo(false);
 
         System.out.println("Baja exitosa");

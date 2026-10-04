@@ -6,6 +6,7 @@ import java.util.*;
 
 import veterinaria.Principal;
 import veterinaria.entidades.Dueño;
+import veterinaria.herramientas.HerramientasDueño;
 import veterinaria.utiles.Campo;
 import veterinaria.utiles.Utiles;
 
@@ -42,7 +43,7 @@ public class ListaDueño extends SubMenu {
 		for (;;) {
 			System.out.print(ENCABEZADO_MENU);
 			
-			imprimirTabla(Principal.dueños);
+			imprimirTabla(HerramientasDueño.internoGetDueños());
 			
 			System.out.print(MENU_BUSCAR_DUEÑO);
 			System.out.printf(formatoPrompt, "lista de dueños");
@@ -53,14 +54,12 @@ public class ListaDueño extends SubMenu {
 			boolean salir = false;
 			switch (opt) {
 				case 0 -> salir = true;
-				case 1 -> acciónBuscarDueño(Principal.dueños);
+				case 1 -> acciónBuscarDueño(HerramientasDueño.internoGetDueños());
+				case 2 -> HerramientasDueño.crearDueño(sc);
                 default -> System.out.println(mensajeOpcionInválida);
 			}
 			
 			if (salir) return;
-			
-			//System.out.println(waiting);
-			//sc.nextLine();
 		}
 	}
 	
@@ -74,10 +73,7 @@ public class ListaDueño extends SubMenu {
 			if (busqueda.equals("-1"))
 				break;
 			
-			// TODO hacer que HerramientasDueño haga este filtrado
-			var resultado = dueños.stream()
-					.filter(d -> d.getNombre().toLowerCase().contains(busqueda.toLowerCase()))
-					.toList();
+			var resultado = HerramientasDueño.filtrarPorNombre(busqueda);
 			
 			imprimirTabla(resultado);
 		}
@@ -113,11 +109,8 @@ public class ListaDueño extends SubMenu {
 		switch (opt) {
 			case 0 -> salir = true;
 			case 1 -> acciónMostrarDetalleDueño(dueño);
-			case 2 -> acciónModificarDueño(dueño);
-			case 3 -> {
-				dueños.remove(dueño);
-				System.out.println("Eliminado correctamente");
-			}
+			case 2 -> HerramientasDueño.modificarDueño(sc, dueño);
+			case 3 -> HerramientasDueño.bajaDueño(dueño);
 			case 4 -> {
 				// TODO esto está bien?
 				new ListaMascota(sc, formatoPrompt, waiting, mensajeOpcionInválida, dueño).iniciar();
@@ -185,38 +178,5 @@ public class ListaDueño extends SubMenu {
 
 		System.out.println(waiting);
 		sc.nextLine();
-	}
-
-	private void acciónCrearDueño() {
-		// TODO implementar esto
-	}
-
-	private void acciónModificarDueño(Dueño dueño) {
-		String cabecera = "# %s:\n";
-		String formatoAnterior = "Valor anterior: %s\n";
-
-		System.out.printf(cabecera, "Nombre");
-		System.out.printf(formatoAnterior, dueño.getNombre());
-		System.out.printf(formatoPrompt, "Nombre");
-		String nombre = sc.nextLine();
-
-		System.out.printf(cabecera, "Teléfono");
-		System.out.printf(formatoAnterior, dueño.getTeléfono());
-		System.out.printf(formatoPrompt, "Teléfono");
-		String teléfono = sc.nextLine();
-
-		System.out.printf(cabecera, "Dirección");
-		System.out.printf(formatoAnterior, dueño.getDirección());
-		System.out.printf(formatoPrompt, "Dirección");
-		String dirección = sc.nextLine();
-
-		// TODO agregar los atributos que faltan por preguntar
-		// TODO cambiar isEmpty por isBlank
-		if (!nombre.isEmpty())
-			dueño.setNombre(nombre);
-		if (!teléfono.isEmpty())
-			dueño.setTeléfono(teléfono);
-		if (!dirección.isEmpty())
-			dueño.setDirección(dirección);
 	}
 }

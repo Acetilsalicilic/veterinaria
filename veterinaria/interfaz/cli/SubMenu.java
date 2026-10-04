@@ -2,7 +2,7 @@ package veterinaria.interfaz.cli;
 
 import java.util.Scanner;
 
-public abstract class SubMenu {
+public class SubMenu {
 	protected Scanner sc;
 	protected String formatoPrompt;
 	protected String waiting;
@@ -15,5 +15,5 @@ public abstract class SubMenu {
 		this.mensajeOpcionInválida = mensajeOpInv;
 	}
 	
-	public abstract void iniciar();
+	public void iniciar() {};
 }
