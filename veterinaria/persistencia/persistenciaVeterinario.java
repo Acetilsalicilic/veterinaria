@@ -1,7 +1,6 @@
 package veterinaria.persistencia;
 
 import java.nio.file.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class persistenciaVeterinario {
     }
 
     private static String veterinarioObjetoAString(Veterinario veterinario) {
-        ArrayList<String> camposDueño = new ArrayList<String>();
+        LinkedList<String> camposDueño = new LinkedList<String>();
         camposDueño.add(String.valueOf(veterinario.getId()));
         camposDueño.add(String.valueOf(veterinario.getActivo()));
         camposDueño.add(veterinario.getNombre());
