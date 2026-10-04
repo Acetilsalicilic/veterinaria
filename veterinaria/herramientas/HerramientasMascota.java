@@ -4,11 +4,26 @@ import veterinaria.entidades.Dueño;
 import veterinaria.entidades.Mascota;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class HerramientasMascota {
-    public static void crearMascota(Dueño dueño){
-        Scanner scanner = new Scanner(System.in);
+    public static List<Mascota> internoGetMascotas(Dueño dueño) {
+        List<Mascota> filtrados = new LinkedList<>();
+        for (var m : dueño.getMascotas())
+            if (m.isActivo())
+                filtrados.add(m);
+        return filtrados;
+    }
+    public static List<Mascota> filtrarPorNombre(Dueño dueño, String termino) {
+        List<Mascota> filtrados = new LinkedList<>();
+        for (var m : dueño.getMascotas())
+            if (m.getNombre().toLowerCase().contains(termino.toLowerCase()))
+                filtrados.add(m);
+        return filtrados;
+    }
+    public static void crearMascota(Scanner scanner, Dueño dueño){
         System.out.println("Mascota de "+ dueño.getNombre());
         System.out.println("Ingresa los siguientes datos: ");
         System.out.print("Nombre: ");
@@ -36,8 +51,7 @@ public class HerramientasMascota {
         System.out.println("Mascota registrada exitosamente :D");
     }
 
-    public static void bajaMascota(Dueño dueño){
-        Scanner scanner = new Scanner(System.in);
+    public static void bajaMascota(Scanner scanner, Dueño dueño){
         System.out.println("Mascotas de "+ dueño.getNombre());
         for (Mascota mascota : dueño.getMascotas()){
             System.out.println("Id: " + mascota.getId());
@@ -61,8 +75,7 @@ public class HerramientasMascota {
         System.out.println("Nombre: "+ mascotaBaja.getNombre());
     }
 
-    public static void modificarMascota(Dueño dueño){
-        Scanner scanner = new Scanner(System.in);
+    public static void modificarMascota(Scanner scanner, Dueño dueño){
         System.out.println("Mascotas de "+ dueño.getNombre());
         for (Mascota mascota : dueño.getMascotas()){
             System.out.println("Id: " + mascota.getId());

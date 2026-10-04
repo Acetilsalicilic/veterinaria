@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class HerramientasDueño {
-    private static List <Dueño> dueños = new ArrayList<>();
+    private static final List <Dueño> dueños = new ArrayList<>();
 
     public static void internoCrearDueño(Dueño d) {
         dueños.add(d);

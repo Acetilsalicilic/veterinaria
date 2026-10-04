@@ -1,5 +1,8 @@
 package veterinaria.interfaz.cli;
 
+import veterinaria.herramientas.HerramientasDueño;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class SubMenu {

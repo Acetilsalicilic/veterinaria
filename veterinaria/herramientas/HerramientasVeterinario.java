@@ -2,22 +2,30 @@ package veterinaria.herramientas;
 
 import veterinaria.entidades.Veterinario;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class HerramientasVeterinario {
-    private static List<Veterinario> veterinarios = new ArrayList<>();
+    private static final List<Veterinario> veterinarios = new ArrayList<>();
 
     public static List<Veterinario> internoGetVeterinarios() {
-        return veterinarios;
+        List<Veterinario> filtrados = new LinkedList<>();
+        for (var v : veterinarios)
+            if (v.isActivo())
+                filtrados.add(v);
+        return filtrados;
     }
 
-    public static void crearVeterinario() {
-        Scanner scanner = new Scanner(System.in);
+    public static List<Veterinario> filtrarPorNombre(String termino) {
+        List<Veterinario> filtrados = new LinkedList<>();
+        for (var v : veterinarios)
+            if (v.getNombre().toLowerCase().contains(termino.toLowerCase()))
+                filtrados.add(v);
+        return filtrados;
+    }
+
+    public static void crearVeterinario(Scanner scanner) {
         System.out.println("Ingresa los siguientes datos: ");
         System.out.print("Nombre: ");
-        scanner.nextLine();
         String nombre = scanner.nextLine();
 
         System.out.print("Especialidad: ");
@@ -37,10 +45,8 @@ public class HerramientasVeterinario {
         System.out.println("Nombre: " + veterinarioEliminado.getNombre());
     }
 
-    public static void modificarVeterinario(int id){
-        Scanner scanner = new Scanner(System.in);
+    public static void modificarVeterinario(Scanner scanner, Veterinario vet){
         boolean top=true;
-        Veterinario vet = veterinarios.get(id);
         while (top){
             String menu="""
             Que quieres modificar:

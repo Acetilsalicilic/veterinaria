@@ -2,6 +2,7 @@ package veterinaria.interfaz.cli;
 
 import veterinaria.entidades.Dueño;
 import veterinaria.entidades.Mascota;
+import veterinaria.herramientas.HerramientasMascota;
 import veterinaria.utiles.Campo;
 
 import java.time.LocalDate;
@@ -48,7 +49,7 @@ public class ListaMascota extends SubMenu {
             boolean salir = false;
 
             System.out.println(CABECERA_MENU);
-            imprimirTabla(dueño.getListaMascotas());
+            imprimirTabla(HerramientasMascota.internoGetMascotas(dueño));
             System.out.print(MENU_MASCOTA);
             System.out.printf(formatoPrompt, "mascotas");
             int opt = sc.nextInt();
@@ -56,8 +57,8 @@ public class ListaMascota extends SubMenu {
 
             switch (opt) {
                 case 0 -> salir = true;
-                case 1 -> acciónBuscarMascota(dueño.getListaMascotas());
-                case 2 -> acciónRegistrarMascota();
+                case 1 -> acciónBuscarMascota();
+                case 2 -> HerramientasMascota.crearMascota(sc, dueño);
                 default -> System.out.println(mensajeOpcionInválida);
             }
 
@@ -102,7 +103,7 @@ public class ListaMascota extends SubMenu {
         System.out.println("\t# Se encontraron "+mascotas.size()+" registros.");
     }
 
-    private void acciónBuscarMascota(List<Mascota> mascotas) {
+    private void acciónBuscarMascota() {
         for (;;) {
             System.out.println("Ingrese el término de búsqueda (-1 para continuar):");
             System.out.printf(formatoPrompt, "buscar mascota");
@@ -111,10 +112,7 @@ public class ListaMascota extends SubMenu {
             if (busqueda.equals("-1"))
                 break;
 
-            // TODO hacer que HerramientasMascota haga este filtrado
-            var resultado = mascotas.stream()
-                    .filter(m -> m.getNombre().toLowerCase().contains(busqueda.toLowerCase()))
-                    .toList();
+            var resultado = HerramientasMascota.filtrarPorNombre(dueño, busqueda);
 
             imprimirTabla(resultado);
         }
@@ -128,17 +126,15 @@ public class ListaMascota extends SubMenu {
         if (id == -1)
             return;
 
-        var posibleMascota = mascotas.stream()
-                .filter(d -> d.getId() == id)
-                .findFirst();
+        Mascota mascota = null;
+        for (var m : dueño.getListaMascotas())
+            if (m.getId() == id)
+                mascota = m;
 
-        if (posibleMascota.isEmpty()) {
+        if (mascota == null) {
             System.out.println("❌ El ID ingresado no existe.");
             return;
         }
-
-        var mascota = posibleMascota.get();
-
 
         System.out.println("Elija una acción:");
         System.out.print(MENU_ACCIONES_MASCOTA);
@@ -151,75 +147,14 @@ public class ListaMascota extends SubMenu {
         switch (opt) {
             case 0 -> salir = true;
             case 1 -> acciónMostrarDetalleMascota(mascota);
-            case 2 -> acciónModificarMascota(mascota);
-            case 3 -> {
-                dueño.getMascotas().remove(mascota);
-                System.out.println("Eliminado correctamente");
-            }
+            case 2 -> HerramientasMascota.modificarMascota(sc, dueño);
+            case 3 -> HerramientasMascota.bajaMascota(sc, dueño);
+            // TODO añadir menú de consultas acá
             default -> System.out.println(mensajeOpcionInválida);
         }
 
         if (salir) {
         }
-    }
-
-    private void acciónModificarMascota(Mascota mascota) {
-        String cabecera = "# %s:\n";
-        String formatoAnterior = "Valor anterior: %s\n";
-
-
-        System.out.printf(cabecera, "Nombre");
-        System.out.printf(formatoAnterior, mascota.getNombre());
-        System.out.printf(formatoPrompt, "Nombre");
-        String nombre = sc.nextLine();
-
-        System.out.printf(cabecera, "Especie");
-        System.out.printf(formatoAnterior, mascota.getEspecie());
-        System.out.printf(formatoPrompt, "Especie");
-        String especie = sc.nextLine();
-
-        System.out.printf(cabecera, "Raza");
-        System.out.printf(formatoAnterior, mascota.getRaza());
-        System.out.printf(formatoPrompt, "Raza");
-        String raza = sc.nextLine();
-
-        System.out.printf(cabecera, "Fecha de nacimiento (DD/MM/AAAA)");
-        System.out.printf(formatoAnterior, mascota.getFechaNacimiento().format(formatoFecha));
-        System.out.printf(formatoPrompt, "Fecha de nacimiento");
-        String fechaStr = sc.nextLine();
-
-        if (!nombre.isBlank())
-            mascota.setNombre(nombre);
-        if (!especie.isBlank())
-            mascota.setEspecie(especie);
-        if (!raza.isBlank())
-            mascota.setRaza(raza);
-        if (!fechaStr.isBlank())
-            mascota.setFechaNacimiento(LocalDate.parse(fechaStr, formatoFecha));
-
-    }
-
-    private void acciónRegistrarMascota() {
-        String cabecera = "# %s:\n";
-
-        System.out.printf(cabecera, "Nombre");
-        System.out.printf(formatoPrompt, "Nombre");
-        String nombre = sc.nextLine();
-
-        System.out.printf(cabecera, "Especie");
-        System.out.printf(formatoPrompt, "Especie");
-        String especie = sc.nextLine();
-
-        System.out.printf(cabecera, "Raza");
-        System.out.printf(formatoPrompt, "Raza");
-        String raza = sc.nextLine();
-
-        System.out.printf(cabecera, "Fecha de nacimiento (DD/MM/AAAA)");
-        System.out.printf(formatoPrompt, "Fecha de nacimiento");
-        String fechaStr = sc.nextLine();
-        var fechaNacimiento = LocalDate.parse(fechaStr, formatoFecha);
-
-        dueño.getMascotas().add(new Mascota(nombre, especie, raza, fechaNacimiento, dueño));
     }
 
     private void acciónMostrarDetalleMascota (Mascota mascota) {

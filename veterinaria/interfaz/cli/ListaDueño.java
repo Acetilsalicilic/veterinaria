@@ -25,7 +25,7 @@ public class ListaDueño extends SubMenu {
 			0. Volver
 			""";
 	private static final String MENU_ACCIONES_DUEÑO = """
-			1. Ver detalle
+			1. Ver información
 			2. Modificar dueño
 			3. Eliminar dueño
 			
@@ -86,7 +86,8 @@ public class ListaDueño extends SubMenu {
 		
 		if (id == -1)
 			return;
-		
+
+		// TODO no usar lambdas
 		var posibleDueño = dueños.stream()
 				.filter(d -> d.getId() == id)
 				.findFirst();

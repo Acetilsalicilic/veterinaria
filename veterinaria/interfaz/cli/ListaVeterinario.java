@@ -2,6 +2,7 @@ package veterinaria.interfaz.cli;
 
 import veterinaria.Principal;
 import veterinaria.entidades.Veterinario;
+import veterinaria.herramientas.HerramientasDueño;
 import veterinaria.herramientas.HerramientasVeterinario;
 import veterinaria.utiles.Campo;
 
@@ -22,9 +23,11 @@ public class ListaVeterinario extends SubMenu {
             0. Volver
             """;
     private final String MENU_ACCIONES_VETERINARIO = """
-            1. Ver detalle
+            1. Ver información
             2. Modificar veterinario
             3. Eliminar veterinario
+            
+            4. Ver consultas
             
             0. Volver
             """;
@@ -46,7 +49,8 @@ public class ListaVeterinario extends SubMenu {
             boolean salir = false;
             switch (opt) {
                 case 0 -> salir = true;
-                case 1 -> acciónBuscarVeterinario(HerramientasVeterinario.internoGetVeterinarios());
+                case 1 -> acciónBuscarVeterinario();
+                case 2 -> HerramientasVeterinario.crearVeterinario(sc);
                 default -> System.out.println(mensajeOpcionInválida);
             }
             if (salir) break;
@@ -90,48 +94,41 @@ public class ListaVeterinario extends SubMenu {
         System.out.println("\t# Se encontraron "+veterinarios.size()+" registros.");
     }
 
-    private void acciónBuscarVeterinario(List<Veterinario> veterinarios) {
+    private void acciónBuscarVeterinario() {
         for (;;) {
             System.out.println("Ingrese el término de búsqueda (-1 para continuar):");
-            System.out.printf(formatoPrompt, "buscar dueño");
+            System.out.printf(formatoPrompt, "buscar veterinario");
             String busqueda = sc.nextLine();
 
             if (busqueda.equals("-1"))
                 break;
 
-            // TODO hacer que HerramientasDueño haga este filtrado
-            var resultado = veterinarios.stream()
-                    .filter(d -> d.getNombre().toLowerCase().contains(busqueda.toLowerCase()))
-                    .toList();
+            var resultado = HerramientasVeterinario.filtrarPorNombre(busqueda);
 
             imprimirTabla(resultado);
         }
 
-        System.out.println("Ingrese el ID del veterinario (-1 para cancelar):");
-        System.out.printf(formatoPrompt, "id veterinario");
+        System.out.println("Ingrese el ID del dueño (-1 para cancelar):");
+        System.out.printf(formatoPrompt, "id dueño");
         int id = sc.nextInt();
         sc.nextLine();
 
         if (id == -1)
             return;
 
-        Veterinario veterinario = null;
-        for (var v : veterinarios) {
-            System.out.println("* id: " + v.getId());
-            if (v.getId() == id) {
-                veterinario = v;
-                break;
-            }
-        }
+        Veterinario vet = null;
+        for (var v : HerramientasVeterinario.internoGetVeterinarios())
+            if (v.getId() == id)
+                vet = v;
 
-        if (veterinario == null) {
-            System.out.println("El ID ingresado no existe.");
+        if (vet == null) {
+            System.out.println("❌ El ID ingresado no existe.");
             return;
         }
 
         System.out.println("Elija una acción:");
         System.out.print(MENU_ACCIONES_VETERINARIO);
-        System.out.printf(formatoPrompt, "id veterinario = "+id);
+        System.out.printf(formatoPrompt, "id dueño = "+id);
 
         int opt = sc.nextInt();
         sc.nextLine();
@@ -139,34 +136,10 @@ public class ListaVeterinario extends SubMenu {
         boolean salir = false;
         switch (opt) {
             case 0 -> salir = true;
-            case 1 -> acciónMostrarDetalleVeterinario(veterinario);
-            case 3 -> HerramientasVeterinario.bajaVeterinario(veterinario);
+            case 2 -> HerramientasVeterinario.modificarVeterinario(sc, vet);
+            case 3 -> HerramientasVeterinario.bajaVeterinario(vet);
+            // TODO agregar menu de consultas acá
             default -> System.out.println(mensajeOpcionInválida);
         }
-        if (salir)
-            return;
-    }
-
-    private void acciónMostrarDetalleVeterinario (Veterinario v) {
-        List<Campo> info = new LinkedList<>();
-
-        info.add(new Campo("ID", v.getId()));
-        info.add(new Campo("Nombre", v.getNombre()));
-        info.add(new Campo("Especialidad", v.getEspecialidad()));
-
-        int maxAncho = 0;
-        for (Campo campo : info)
-            maxAncho = Integer.max(maxAncho, campo.etiqueta.length());
-
-        String formatoCampo = "%"+maxAncho+"s: %s\n";
-
-        System.out.println("--- Detalle Veterinario ----");
-
-        for (var c : info)
-            System.out.printf(formatoCampo, c.etiqueta, c.valor);
-        System.out.println();
-
-        System.out.println(waiting);
-        sc.nextLine();
     }
 }
