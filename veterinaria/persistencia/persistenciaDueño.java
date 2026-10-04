@@ -1,12 +1,16 @@
 package veterinaria.persistencia;
 
-import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import veterinaria.entidades.*;
+
+/*
+    Formato en el .csv
+    ID,Activo,Nombre,Telefono,Direccion,TelefonoDeEmergencia,NobmreDeEmergencia
+*/
 
 public class persistenciaDueño {
     private static Path archivo;
@@ -15,49 +19,83 @@ public class persistenciaDueño {
         persistenciaDueño.archivo = archivo;
     }
 
-    // Retorna verdadero si no encuentra un veterinario con el ID, lo cuál nunca debería pasar
-    public static boolean actualizarDueño(Dueño dueño) throws IOException {
-        List<String> lineas = Files.readAllLines(archivo);
+    private static Dueño dueñoStringAObjecto(String strDueño) {
+        String[] datos = strDueño.split(",", -1);
 
-        ArrayList<String> dueñoActualizado = new ArrayList<String>();
-        dueñoActualizado.add(String.valueOf(dueño.getId()));
-        dueñoActualizado.add(String.valueOf(dueño.getActivo()));
-        dueñoActualizado.add(dueño.getNombre());
-        dueñoActualizado.add(dueño.getTeléfono());
-        dueñoActualizado.add(dueño.getDirección());
-        dueñoActualizado.add(dueño.getTelefonoDeEmergencia());
-        dueñoActualizado.add(dueño.getNombreDeEmergencia());
+        if(datos.length < 7) {
+            System.err.println("Formato invalido");
+            return null;
+        }
+
+        return new Dueño(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], datos[5], datos[6]);
+    }
+
+    private static String dueñoObjetoAString(Dueño dueño) {
+        ArrayList<String> camposDueño = new ArrayList<String>();
+        camposDueño.add(String.valueOf(dueño.getId()));
+        camposDueño.add(String.valueOf(dueño.getActivo()));
+        camposDueño.add(dueño.getNombre());
+        camposDueño.add(dueño.getTeléfono());
+        camposDueño.add(dueño.getDirección());
+        camposDueño.add(dueño.getTelefonoDeEmergencia());
+        camposDueño.add(dueño.getNombreDeEmergencia());
+
+        return String.join(",", camposDueño);
+    }
+
+    // Retorna true si no se puede actualizar el Dueño
+    public static boolean actualizarDueño(Dueño dueño) {
+        List<String> lineas;
+
+        try {
+            lineas = Files.readAllLines(archivo);
+        } catch (Exception e) {
+            return true;
+        }
+
+        String strDueñoActuelizado = dueñoObjetoAString(dueño);
         
         for(int i = 0; i < lineas.size(); i++) {
             String[] datos = lineas.get(i).split(",");
             if(Integer.valueOf(datos[0]) == dueño.getId()) {
-                lineas.set(i, String.join(",", dueñoActualizado));
-                Files.write(archivo, lineas);
-                System.out.println("Se actualiza elemento");
+                lineas.set(i, strDueñoActuelizado);
+                
+                try {
+                    Files.write(archivo, lineas);
+                } catch (Exception e) {
+                    return true;
+                }
+
                 return false;
             }
         }
 
         registrarDueño(dueño);
+
         return true;
     }
 
-    public static void registrarDueño(Dueño dueño) throws IOException {
-        List<String> lineas = Files.readAllLines(archivo);
+    // Retorna true si no se puede registrar el Dueño
+    public static boolean registrarDueño(Dueño dueño) {
+        List<String> lineas;
 
-        ArrayList<String> dueñoNuevo = new ArrayList<String>();
-        dueñoNuevo.add(String.valueOf(dueño.getId()));
-        dueñoNuevo.add(String.valueOf(dueño.getActivo()));
-        dueñoNuevo.add(dueño.getNombre());
-        dueñoNuevo.add(dueño.getTeléfono());
-        dueñoNuevo.add(dueño.getDirección());
-        dueñoNuevo.add(dueño.getTelefonoDeEmergencia());
-        dueñoNuevo.add(dueño.getNombreDeEmergencia());
+        try {
+            lineas = Files.readAllLines(archivo);
+        } catch (Exception e) {
+            return true;
+        }
+
+        String strDueñoActualizado = dueñoObjetoAString(dueño);
         
-        lineas.add(String.join(",", dueñoNuevo));
+        lineas.add(strDueñoActualizado);
 
-        Files.write(archivo, lineas);
-        System.out.println("Se agrega elemento");
+        try {
+            Files.write(archivo, lineas);
+        } catch (Exception e) {
+            return true;
+        }
+
+        return false;
     }
 
     public static LinkedList<Dueño> obteniendoDueños() {
@@ -72,24 +110,12 @@ public class persistenciaDueño {
         LinkedList<Dueño> dueños = new LinkedList<Dueño>();
 
         for(String linea : lineas) {
-            Dueño dueño = crearDueño(linea);
+            Dueño dueño = dueñoStringAObjecto(linea);
             if (dueño != null) {
                 dueños.add(dueño);
             }
         }
 
         return dueños;
-    }
-
-    private static Dueño crearDueño(String strDueño) {
-        String[] datos = strDueño.split(",", -1);
-
-        if(datos.length < 7)
-        {
-            System.err.println("Formato invalido");
-            return null;
-        }
-
-        return new Dueño(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], datos[5], datos[6]);
     }
 }
