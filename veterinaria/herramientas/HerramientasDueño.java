@@ -27,7 +27,7 @@ public class HerramientasDueño {
         dueños.add(dueño);
 
         try {
-            persistenciaDueño.registrarDueño(dueño);
+            persistenciaDueño.agregarDueño(dueño);
         } catch (Exception e) {
             System.err.println("No se pudo guardar al dueño");
         }

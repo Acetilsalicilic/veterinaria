@@ -48,6 +48,14 @@ public class Consulta {
 	public Veterinario getVeterinario() {
 		return veterinario;
 	}
+	public void setMascota(Mascota mascota) {
+		this.mascota = mascota;
+	}
+
+	public void setVeterinario(Veterinario veterinario) {
+		this.veterinario = veterinario;
+	}
+	
 }
 
 
