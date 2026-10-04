@@ -33,12 +33,12 @@ public class HerramientasDueño {
 
     public static void bajaDueño(int id){
         Dueño dueñoEliminado= dueños.get(id);
-        dueños.remove(id);
+        dueñoEliminado.setActivo(false);
 
-        System.out.println("Eliminación exitosa");
-        System.out.println("Eliminado: ");
-        System.out.println("Nombre: "+ dueñoEliminado.getNombre());
+        System.out.println("Baja exitosa");
+        System.out.println("Usuario dado de baja: ");
         System.out.println("ID: "+dueñoEliminado.getId());
+        System.out.println("Nombre: "+ dueñoEliminado.getNombre());
     }
 
     public static void modificarDueño(int id){

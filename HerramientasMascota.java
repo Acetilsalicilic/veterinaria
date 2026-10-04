@@ -1,4 +1,4 @@
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class HerramientasMascota {
@@ -16,11 +16,17 @@ public class HerramientasMascota {
         System.out.print("Raza: ");
         String raza = scanner.nextLine();
 
-        System.out.print("Fecha de nacimiento: ");
-        LocalDateTime fechaNacimiento //leer;
+        System.out.print("Fecha de nacimiento (dd/mm/yy) : ");
+        String fecha = scanner.nextLine();
+        int dia=obtener.dia(fecha);
+        int mes=obtener.mes(fecha);
+        int año=obtener.año(fecha);
 
-        Mascota mascota= new Mascota(nombre, especie, raza, dueño);
-        //agregar mascota al set
+        LocalDate fechaNacimiento = LocalDate.of(dia, mes, año);
+
+        Mascota mascota= new Mascota(nombre, especie, raza, fechaNacimiento, dueño);
+        
+        dueño.getMascotas().add(mascota);
 
         System.out.println("Mascota registrada exitosamente :D");
     }
@@ -28,38 +34,49 @@ public class HerramientasMascota {
     public static void bajaMascota(Dueño dueño){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Mascotas de "+ dueño.getNombre());
-        int numMascota=1;
         for (Mascota mascota : dueño.getMascotas()){
-            System.err.println(numMascota +") " + mascota.getNombre());
+            System.err.println("·" + mascota.getNombre());
         }
 
-        System.out.print("Escoge el número de mascota a la que quieras dar de baja: ");
-        int mascotaEliminada= scanner.nextInt();
+        System.out.print("Escribe el id de la mascota que quieras dar de baja: ");
+        int id= scanner.nextInt();
 
-        Mascota mascotaEliminada //sacar a la mascota del set
-        //eliminar a la mascota
+        Mascota mascotaBaja;
+        for (Mascota mascota:dueño.getMascotas()){
+            if (mascota.getId()==id){
+                mascotaBaja=mascota;
+            }
+        }
 
-        System.out.println("Eliminación exitosa");
-        System.out.println("Eliminado: ");
-        System.out.println("Nombre: "+ mascotaEliminada.getNombre());
+        mascotaBaja.setActivo(false);
+
+        System.out.println("Baja exitosa");
+        System.out.println("Mascota dada de baja: ");
+        System.out.println("Nombre: "+ mascotaBaja.getNombre());
     }
 
     public static void modificarMascota(Dueño dueño){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Mascotas de "+ dueño.getNombre());
-        int numMascota=1;
         for (Mascota mascota : dueño.getMascotas()){
-            System.err.println(numMascota +") " + mascota.getNombre());
+            System.err.println("·" + mascota.getNombre());
         }
 
-        System.out.print("Escoge el número de mascota a la que le quieras modificar el nombre: ");
-        int mascotaEliminada= scanner.nextInt();
+        System.out.print("Escribe el id de la mascota que quieres modificar: ");
+        int id= scanner.nextInt();
 
+        Mascota mascotaNew;
+        for (Mascota mascota:dueño.getMascotas()){
+            if (mascota.getId()==id){
+                mascotaNew=mascota;
+            }
+        }
+
+        scanner.nextLine();
+        System.out.print("Escribe el nombre que le quieras poner: ");
         String newNombre = scanner.nextLine();
 
-        Mascota mascota // sacar a la mascota del set
-
-        mascota.setNombre(newNombre);
+        mascotaNew.setNombre(newNombre);
         System.out.println("Nombre modificado a "+newNombre);
     }
 }
