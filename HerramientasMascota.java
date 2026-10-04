@@ -22,7 +22,7 @@ public class HerramientasMascota {
         int mes=obtener.mes(fecha);
         int año=obtener.año(fecha);
 
-        LocalDate fechaNacimiento = LocalDate.of(dia, mes, año);
+        LocalDate fechaNacimiento = LocalDate.of(año, mes, dia);
 
         Mascota mascota= new Mascota(nombre, especie, raza, fechaNacimiento, dueño);
         
@@ -35,7 +35,8 @@ public class HerramientasMascota {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Mascotas de "+ dueño.getNombre());
         for (Mascota mascota : dueño.getMascotas()){
-            System.err.println("·" + mascota.getNombre());
+            System.out.println("Id: " + mascota.getId());
+            System.out.println("Nombre: " + mascota.getNombre());
         }
 
         System.out.print("Escribe el id de la mascota que quieras dar de baja: ");
@@ -59,7 +60,8 @@ public class HerramientasMascota {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Mascotas de "+ dueño.getNombre());
         for (Mascota mascota : dueño.getMascotas()){
-            System.err.println("·" + mascota.getNombre());
+            System.out.println("Id: " + mascota.getId());
+            System.out.println("Nombre: " + mascota.getNombre());
         }
 
         System.out.print("Escribe el id de la mascota que quieres modificar: ");

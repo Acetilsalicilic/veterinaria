@@ -1,3 +1,5 @@
+
+
 public class obtener {
     public static int dia(String fecha){
         String dia = "";
@@ -20,5 +22,19 @@ public class obtener {
         int añoI =Integer.parseInt(año);
         añoI+=2000;
         return añoI;
+    }
+
+     public static int hora(String time){
+        String hora = "";
+        hora =hora+time.charAt(0)+time.charAt(1);
+        int horaI =Integer.parseInt(hora);
+        return horaI;
+    }
+
+    public static int min(String time){
+        String min = "";
+        min =min+time.charAt(3)+time.charAt(4);
+        int minI =Integer.parseInt(min);
+        return minI;
     }
 }
