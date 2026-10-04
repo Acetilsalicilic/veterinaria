@@ -63,8 +63,7 @@ public class persistenciaVeterinario {
             }
         }
 
-        agregarVeterinario(veterinario);
-        return true;
+        return agregarVeterinario(veterinario);
     }
 
     // Retrona verdadero si no pudo agregar el veterinario

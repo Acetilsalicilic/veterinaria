@@ -48,7 +48,7 @@ public class persistenciaInicio {
 
         int i = 0;
         for(Consulta consulta : consultas) {
-            int id = veterinariosIDs.get(i++);
+            int id = veterinariosIDs.get(i);
             for(Veterinario veterinario : veterinarios) {
                 if(veterinario.getId() == id) {
                     consulta.setVeterinario(veterinario);
@@ -81,7 +81,7 @@ public class persistenciaInicio {
 
         int i = 0;
         for(Consulta consulta : consultas) {
-            int id = veterinariosIDs.get(i++);
+            int id = veterinariosIDs.get(i);
             for(Veterinario veterinario : veterinarios) {
                 if(veterinario.getId() == id) {
                     consulta.setVeterinario(veterinario);
@@ -118,7 +118,31 @@ public class persistenciaInicio {
         LinkedList<Veterinario> veterinarios = obteniendoVeterinarios();
         LinkedList<Consulta> consultasAgendadas = obteniendoConsultasAgendadas(veterinarios, mascotas);
         LinkedList<Consulta> consultasHistoricas = obteniendoConsultasHistoricas(veterinarios, mascotas);
-        
+
+        // A ELIMINAR, ESTO SOLO ES DE PRUEBA
+        /*
+        System.out.println("DUEÑOS");
+        for (Dueño dueño : dueños) {
+            System.out.println("    " + dueño.getId() + " " + dueño.getNombre());
+        }
+        System.out.println("MASCOTAS");
+        for (Mascota mascota : mascotas) {
+            System.out.println("    " + mascota.getId() + " " + mascota.getNombre() + " " + mascota.getDueño().getNombre());
+        }
+        System.out.println("VATERINARIOS");
+        for (Veterinario veterinario : veterinarios) {
+            System.out.println("    " + veterinario.getId() + " " + veterinario.getNombre());
+        }
+        System.out.println("CONSULTASA");
+        for (Consulta consulta : consultasAgendadas) {
+            System.out.println("    " + consulta.getId() + " " + consulta.getMascota().getNombre() + " " + consulta.getVeterinario().getNombre());
+
+        }
+        System.out.println("CONSULTASH");
+        for (Consulta consulta : consultasHistoricas) {
+            System.out.println("    " + consulta.getId() + " " + consulta.getMascota().getNombre() + " " + consulta.getVeterinario().getNombre());
+        }
+        */
         
     }
 

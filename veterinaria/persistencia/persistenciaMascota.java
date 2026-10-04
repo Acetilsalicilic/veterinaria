@@ -69,8 +69,7 @@ public class persistenciaMascota {
             }
         }
 
-        agregarMascota(mascota);
-        return true;
+        return agregarMascota(mascota);
     }
 
     // Retorna verdadero si no pudo agregar a la mascota
