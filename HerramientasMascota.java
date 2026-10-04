@@ -71,14 +71,66 @@ public class HerramientasMascota {
         for (Mascota mascota:dueño.getMascotas()){
             if (mascota.getId()==id){
                 mascotaNew=mascota;
+                break;
             }
         }
 
-        scanner.nextLine();
-        System.out.print("Escribe el nombre que le quieras poner: ");
-        String newNombre = scanner.nextLine();
+        boolean bandera=true;
+        while (bandera){
+            String menu="""
+            Que quieres modificar:
+            1) Nombre
+            2) Especie
+            3) Raza
+            4) Fecha de nacimiento
+            5) Guardar
+            """;
+            System.out.println(menu);
+            int op= scanner.nextInt();
+            scanner.nextLine();
+            switch (op) {
+                case 1:
+                    System.out.print("Nuevo nombre: ");
+                    String newNombre = scanner.nextLine();
 
-        mascotaNew.setNombre(newNombre);
-        System.out.println("Nombre modificado a "+newNombre);
+                    mascotaNew.setNombre(newNombre);
+                    System.out.println("Nombre modificado a "+newNombre);
+                    break;
+                case 2:
+                    System.out.print("Nueva especie: ");
+                    String newEspecie = scanner.nextLine();
+
+                    mascotaNew.setEspecie(newEspecie);
+                    System.out.println("Especie modificada a "+newEspecie);
+                    break;
+                case 3:
+                    System.out.print("Nueva raza: ");
+                    String newRaza = scanner.nextLine();
+
+                    mascotaNew.setRaza(newRaza);
+                    System.out.println("Raza modificada a "+newRaza);
+                    break;
+                case 4:
+                    System.out.print("Nueva fecha de nacimiento (dd/mm/yy) : ");
+                    String fecha = scanner.nextLine();
+                    int dia=obtener.dia(fecha);
+                    int mes=obtener.mes(fecha);
+                    int año=obtener.año(fecha);
+
+                    LocalDate fechaNacimiento = LocalDate.of(año, mes, dia);
+
+                    mascotaNew.setFechaNacimiento(fechaNacimiento);
+                    System.out.println("Fecha de nacimiento modificada a "+fechaNacimiento);
+                    break;
+                case 5:
+                    System.out.println("Cambios guardados");
+                    bandera=false;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        
     }
 }
