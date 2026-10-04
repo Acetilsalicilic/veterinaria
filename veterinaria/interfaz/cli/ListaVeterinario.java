@@ -27,8 +27,6 @@ public class ListaVeterinario extends SubMenu {
             2. Modificar veterinario
             3. Eliminar veterinario
             
-            4. Ver consultas
-            
             0. Volver
             """;
 
@@ -138,7 +136,6 @@ public class ListaVeterinario extends SubMenu {
             case 0 -> salir = true;
             case 2 -> HerramientasVeterinario.modificarVeterinario(sc, vet);
             case 3 -> HerramientasVeterinario.bajaVeterinario(vet);
-            // TODO agregar menu de consultas acá
             default -> System.out.println(mensajeOpcionInválida);
         }
     }

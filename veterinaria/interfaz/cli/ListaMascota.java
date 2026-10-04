@@ -26,11 +26,11 @@ public class ListaMascota extends SubMenu {
             0. Volver
             """;
     private final String MENU_ACCIONES_MASCOTA = """
-            1. Ver detalle
+            1. Ver información
             2. Modificar mascota
             3. Eliminar mascota
             
-            4. Ver consultas
+            4. Ver consultas (agendadas e historial)
             
             0. Cancelar
             """;
@@ -149,7 +149,7 @@ public class ListaMascota extends SubMenu {
             case 1 -> acciónMostrarDetalleMascota(mascota);
             case 2 -> HerramientasMascota.modificarMascota(sc, dueño);
             case 3 -> HerramientasMascota.bajaMascota(sc, dueño);
-            // TODO añadir menú de consultas acá
+            case 4 -> { new ListaConsulta(sc, formatoPrompt, waiting, mensajeOpcionInválida, mascota).iniciar(); }
             default -> System.out.println(mensajeOpcionInválida);
         }
 

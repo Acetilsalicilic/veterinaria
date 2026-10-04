@@ -2,25 +2,33 @@ package veterinaria.herramientas;
 
 import veterinaria.entidades.Consulta;
 import veterinaria.entidades.Mascota;
+import veterinaria.entidades.Veterinario;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class HerramientasConsultas {
     private static Map <Mascota, List<Consulta>> historial=new HashMap<>();
     private static Map <Mascota, List<Consulta>> agendadas=new HashMap<>();
     private static List<LocalDateTime> fechasOcupadas = new ArrayList<>();
 
-    public static void crearConsulta(Mascota mascota){
-        Scanner scanner=new Scanner(System.in);
+    public static List<Consulta> internoGetConsultasAgendadas(Mascota mascota) {
+        if (agendadas.get(mascota) == null)
+            agendadas.put(mascota, new LinkedList<>());
+        return agendadas.get(mascota);
+    }
+
+    public static List<Consulta> internoGetHistorial(Mascota mascota) {
+        if (historial.get(mascota) == null)
+            historial.put(mascota, new LinkedList<>());
+        return historial.get(mascota);
+    }
+
+    public static void crearConsulta(Scanner scanner, Mascota mascota){
         System.out.println("Consulta para "+mascota.getNombre());
         boolean bandera=true;
         LocalDateTime cita = null;
-        scanner.nextLine();
+        //scanner.nextLine();
         while (bandera){
             System.out.println("Cuando quiere su cita? dd/mm/yy ");
             String fecha=scanner.nextLine();
@@ -57,31 +65,7 @@ public class HerramientasConsultas {
         }
     }
 
-    public static void modificarConsulta(Mascota mascota){
-        Scanner scanner =new Scanner(System.in);
-        if (agendadas.get(mascota).isEmpty()){
-            System.out.println("La mascota no tiene consultas agendadas");
-            return;
-        }
-
-        System.out.println("Consultas agendadas de "+mascota.getNombre());
-        for (Consulta consulta:agendadas.get(mascota)){
-            System.out.println("ID: " + consulta.getId());
-            System.out.println("Fecha: " + consulta.getFechaYHora());
-            System.out.println("Motivo: " + consulta.getMotivo());
-        }
-
-        System.out.print("Escribe el ID de la cita que quieras modificar: ");
-        int id= scanner.nextInt();
-        Consulta consultaModi = null;
-        for (Consulta consulta : agendadas.get(mascota)) {
-            if (consulta.getId() == id) {
-                consultaModi = consulta;
-                break;
-            }
-        }
-
-        scanner.nextLine();
+    public static void modificarConsulta(Scanner scanner, Consulta consultaModi){
         boolean bandera=true;
         while (bandera){
             String menu = """
@@ -149,32 +133,9 @@ public class HerramientasConsultas {
 
     }
 
-    public static void eliminarConsulta(Mascota mascota){
-        Scanner scanner =new Scanner(System.in);
-        if (agendadas.get(mascota).isEmpty()){
-            System.out.println("La mascota no tiene consultas agendadas");
-            return;
-        }
-
-        System.out.println("Consultas agendadas de "+mascota.getNombre());
-        for (Consulta consulta:agendadas.get(mascota)){
-            System.out.println("ID: " + consulta.getId());
-            System.out.println("Fecha: " + consulta.getFechaYHora());
-            System.out.println("Motivo: " + consulta.getMotivo());
-        }
-
-        System.out.print("Escribe el ID de la cita que quieras cancelar: ");
-        int id= scanner.nextInt();
-        Consulta consultaEliminar = null;
-        for (Consulta consulta : agendadas.get(mascota)) {
-            if (consulta.getId() == id) {
-                consultaEliminar = consulta;
-                break;
-            }
-        }
-
+    public static void eliminarConsulta(Scanner scanner, Consulta consultaEliminar){
         fechasOcupadas.remove(consultaEliminar.getFechaYHora());
-        agendadas.get(mascota).remove(consultaEliminar);
+        agendadas.get(consultaEliminar.getMascota()).remove(consultaEliminar);
     }
 
     public static void moverAHistorial(Consulta consulta){
