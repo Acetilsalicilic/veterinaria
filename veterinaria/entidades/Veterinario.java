@@ -11,13 +11,18 @@ public class Veterinario {
 	private String especialidad;
 	private List<Consulta> consultas;
 
-	public Veterinario(String nombre, String especialidad) {
-		this.activo = true;
+	public Veterinario(int id, boolean activo, String nombre, String especialidad) {
+		this.id = id;
+		this.activo = activo;
 		this.nombre = nombre;
 		this.especialidad = especialidad;
 
 		this.consultas = new LinkedList<>();
-		this.id = últimoId++;
+		últimoId = Integer.max(id, últimoId) + 1;
+	}
+
+	public Veterinario(String nombre, String especialidad) {
+		this(últimoId, true, nombre, especialidad);
 	}
 
 	public static int getÚltimoId() {

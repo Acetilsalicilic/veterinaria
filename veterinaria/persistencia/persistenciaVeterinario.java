@@ -26,9 +26,7 @@ public class persistenciaVeterinario {
             return null;
         }
 
-        // TODO adecuar
-        //return new Veterinario(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3]);
-        return null;
+        return new Veterinario(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3]);
     }
 
     private static String veterinarioObjetoAString(Veterinario veterinario) {

@@ -106,7 +106,7 @@ public class ListaVeterinario extends SubMenu {
             imprimirTabla(resultado);
         }
 
-        System.out.println("Ingrese el ID del dueño (-1 para cancelar):");
+        System.out.println("Ingrese el ID del veterinario (-1 para cancelar):");
         System.out.printf(formatoPrompt, "id dueño");
         int id = sc.nextInt();
         sc.nextLine();
@@ -134,6 +134,11 @@ public class ListaVeterinario extends SubMenu {
         boolean salir = false;
         switch (opt) {
             case 0 -> salir = true;
+            case 1 -> {
+                System.out.printf("%s: %s\n", "ID", vet.getId());
+                System.out.printf("%s: %s\n", "Nombre", vet.getNombre());
+                System.out.printf("%s: %s\n", "ID", vet.getEspecialidad());
+            }
             case 2 -> HerramientasVeterinario.modificarVeterinario(sc, vet);
             case 3 -> HerramientasVeterinario.bajaVeterinario(vet);
             default -> System.out.println(mensajeOpcionInválida);

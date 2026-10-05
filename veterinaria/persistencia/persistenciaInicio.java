@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import veterinaria.entidades.*;
 import veterinaria.herramientas.HerramientasConsultas;
 import veterinaria.herramientas.HerramientasDueño;
+import veterinaria.herramientas.HerramientasVeterinario;
 
 public class persistenciaInicio {
     private static LinkedList<Dueño> obteniendoDueños() {
@@ -149,6 +150,7 @@ public class persistenciaInicio {
         HerramientasConsultas.internoSetAgendadas(consultasAgendadas);
         HerramientasConsultas.internoSetHistorial(consultasHistoricas);
 
+        HerramientasVeterinario.internoSetVeterinarios(veterinarios);
 
         return false;
     }

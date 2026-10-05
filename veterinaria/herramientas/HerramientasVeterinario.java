@@ -1,11 +1,16 @@
 package veterinaria.herramientas;
 
 import veterinaria.entidades.Veterinario;
+import veterinaria.persistencia.persistenciaVeterinario;
 
 import java.util.*;
 
 public class HerramientasVeterinario {
     private static final List<Veterinario> veterinarios = new ArrayList<>();
+
+    public static void internoSetVeterinarios(List<Veterinario> veterinarios) {
+        HerramientasVeterinario.veterinarios.addAll(veterinarios);
+    }
 
     public static List<Veterinario> internoGetVeterinarios() {
         List<Veterinario> filtrados = new LinkedList<>();
@@ -32,12 +37,21 @@ public class HerramientasVeterinario {
         String especialidad = scanner.nextLine();
 
         Veterinario veterinario = new Veterinario(nombre, especialidad);
+        if (persistenciaVeterinario.agregarVeterinario(veterinario)) {
+            System.out.println("ERROR al guardar los datos");
+            return;
+        }
         veterinarios.add(veterinario);
         System.out.println("Veterinario registrado exitosamente :D");
     }
 
     public static void bajaVeterinario(Veterinario veterinarioEliminado){
         veterinarioEliminado.setActivo(false);
+
+        if (persistenciaVeterinario.actualizarVeterinario(veterinarioEliminado)) {
+            System.out.println("ERROR al actualizad la información");
+            return;
+        }
 
         System.out.println("Baja exitosa");
         System.out.println("Veterinario que renunció: ");
@@ -79,6 +93,10 @@ public class HerramientasVeterinario {
                     System.out.println("Opción inválida.");
                     break;
             }
+        }
+
+        if (persistenciaVeterinario.actualizarVeterinario(vet)) {
+            System.out.println("ERROR al actualizar la información");
         }
     }
 }
