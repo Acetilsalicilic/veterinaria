@@ -3,7 +3,9 @@ package veterinaria.herramientas;
 import veterinaria.entidades.Consulta;
 import veterinaria.entidades.Mascota;
 import veterinaria.entidades.Veterinario;
+import veterinaria.persistencia.persistenciaConsulta;
 
+import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -11,6 +13,21 @@ public class HerramientasConsultas {
     private static Map <Mascota, List<Consulta>> historial=new HashMap<>();
     private static Map <Mascota, List<Consulta>> agendadas=new HashMap<>();
     private static List<LocalDateTime> fechasOcupadas = new ArrayList<>();
+
+    public static void internoSetAgendadas(List<Consulta> consultas) {
+        for (var c : consultas) {
+            if (!agendadas.containsKey(c.getMascota()))
+                agendadas.put(c.getMascota(), new LinkedList<>());
+            agendadas.get(c.getMascota()).add(c);
+        }
+    }
+    public static void internoSetHistorial(List<Consulta> consultas) {
+        for (var c : consultas) {
+            if (!historial.containsKey(c.getMascota()))
+                historial.put(c.getMascota(), new LinkedList<>());
+            historial.get(c.getMascota()).add(c);
+        }
+    }
 
     public static List<Consulta> internoGetConsultasAgendadas(Mascota mascota) {
         if (agendadas.get(mascota) == null)
@@ -54,7 +71,11 @@ public class HerramientasConsultas {
         System.out.print("Motivo de consulta: ");
         String motivo=scanner.nextLine();
 
-        Consulta consulta = new Consulta(cita, motivo, mascota);
+        Consulta consulta = new Consulta(cita, motivo, mascota, new Veterinario("", ""));
+        if (persistenciaConsulta.agregarConsulta(consulta)) {
+            System.out.println("ERROR al guardar la información");
+            return;
+        }
 
         if (agendadas.containsKey(mascota)){
             agendadas.get(mascota).add(consulta);
@@ -128,17 +149,28 @@ public class HerramientasConsultas {
             }
         }
         
-
-
+        if (persistenciaConsulta.actualizarConsulta(consultaModi)) {
+            System.out.println("ERROR guardando la información");
+        }
 
     }
 
-    public static void eliminarConsulta(Scanner scanner, Consulta consultaEliminar){
+    public static void eliminarConsulta(Consulta consultaEliminar){
+        if (persistenciaConsulta.eliminarConsulta(consultaEliminar)) {
+            System.out.println("ERROR al actualizar los datos");
+            return;
+        }
+
         fechasOcupadas.remove(consultaEliminar.getFechaYHora());
         agendadas.get(consultaEliminar.getMascota()).remove(consultaEliminar);
     }
 
     public static void moverAHistorial(Consulta consulta){
+        if (persistenciaConsulta.moverAHistorico(consulta)) {
+            System.out.println("ERROR actualizando la información");
+            return;
+        }
+
         Mascota mascota=consulta.getMascota();
 
         agendadas.get(mascota).remove(consulta);

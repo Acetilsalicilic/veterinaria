@@ -159,7 +159,7 @@ public class ListaConsulta extends SubMenu {
             case 1 -> imprimirConsulta(c);
             case 2 -> HerramientasConsultas.moverAHistorial(c);
             case 3 -> HerramientasConsultas.modificarConsulta(sc, c);
-            case 4 -> HerramientasConsultas.eliminarConsulta(sc, c);
+            case 4 -> HerramientasConsultas.eliminarConsulta(c);
             case 5 -> {
                 System.out.println("Escriba el diagnóstico:");
                 System.out.printf(formatoPrompt, "diagnóstico");

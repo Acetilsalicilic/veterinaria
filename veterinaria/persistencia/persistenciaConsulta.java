@@ -34,9 +34,7 @@ public class persistenciaConsulta {
             return null;
         }
 
-        // adecuar
-        //return new Consulta(Integer.valueOf(datos[0]), LocalDateTime.parse(datos[1]), datos[2], datos[3], datos[4], null);
-        return null;
+        return new Consulta(Integer.valueOf(datos[0]), LocalDateTime.parse(datos[1]), datos[2], datos[3], datos[4], null, null);
     }
 
     private static String consultaObjetoAString(Consulta consulta) {

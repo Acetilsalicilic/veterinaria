@@ -1,8 +1,11 @@
 package veterinaria.entidades;
 
+import veterinaria.herramientas.HerramientasVeterinario;
+
 import java.time.LocalDateTime;
 
 public class Consulta {
+	private static int ultimoId = 0;
 	private int id;
 	private LocalDateTime fechaYHora;
 	private String motivo;
@@ -11,21 +14,35 @@ public class Consulta {
 	private Mascota mascota;
 	private Veterinario veterinario;
 
-	public Consulta(LocalDateTime fechaYHora, String motivo, String diagnóstico, String tratamiento, Mascota mascota)
+	public Consulta(int id, LocalDateTime fechaYHora, String motivo, String diagnóstico, String tratamiento, Mascota mascota, Veterinario veterinario)
 	{
-		// TODO adecuar el constructor para la persistencia
-		//this.id = id;
+		this.id = id;
 		this.fechaYHora = fechaYHora;
 		this.motivo = motivo;
 		this.diagnóstico = diagnóstico;
 		this.tratamiento = tratamiento;
 		this.mascota = mascota;
+		if (veterinario == null)
+			this.veterinario = new Veterinario("", "");
+		else
+			this.veterinario = veterinario;
 	}
 
-	public Consulta(LocalDateTime fechaYHora, String motivo, Mascota mascota) {
-		this.fechaYHora = fechaYHora;
-		this.motivo = motivo;
-		this.mascota = mascota;
+	@Override
+	public String toString() {
+		return "Consulta{" +
+				"id=" + id +
+				", fechaYHora=" + fechaYHora +
+				", motivo='" + motivo + '\'' +
+				", diagnóstico='" + diagnóstico + '\'' +
+				", tratamiento='" + tratamiento + '\'' +
+				", mascota=" + mascota +
+				", veterinario=" + veterinario +
+				'}';
+	}
+
+	public Consulta(LocalDateTime fechaYHora, String motivo, Mascota mascota, Veterinario veterinario) {
+		this(ultimoId, fechaYHora, motivo, "", "", mascota, veterinario);
 	}
 
 	public int getId() {

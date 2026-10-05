@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import veterinaria.entidades.*;
+import veterinaria.herramientas.HerramientasConsultas;
 import veterinaria.herramientas.HerramientasDueño;
 
 public class persistenciaInicio {
@@ -65,7 +66,9 @@ public class persistenciaInicio {
                     break;
                 }
             }
-            if(consulta.getVeterinario() == null || consulta.getMascota() == null) 
+//            if(consulta.getVeterinario() == null || consulta.getMascota() == null)
+//                consultasNoEnctontradas.add(consulta);
+            if (consulta.getMascota() == null)
                 consultasNoEnctontradas.add(consulta);
         }
 
@@ -139,11 +142,13 @@ public class persistenciaInicio {
         LinkedList<Consulta> consultasHistoricas = obteniendoConsultasHistoricas(veterinarios, mascotas);
 
         for (var m : mascotas) {
-            System.err.println(m);
             m.getDueño().getMascotas().add(m);
         }
-
         HerramientasDueño.internoSetDueños(dueños);
+
+        HerramientasConsultas.internoSetAgendadas(consultasAgendadas);
+        HerramientasConsultas.internoSetHistorial(consultasHistoricas);
+
 
         return false;
     }
