@@ -153,6 +153,7 @@ public class ListaConsulta extends SubMenu {
         System.out.printf(formatoPrompt, "id consulta = "+id);
 
         int opt = sc.nextInt();
+        sc.nextLine();
 
         switch (opt) {
             case 0 -> {}
