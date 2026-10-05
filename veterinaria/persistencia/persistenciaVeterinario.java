@@ -6,11 +6,6 @@ import java.util.List;
 
 import veterinaria.entidades.*;
 
-/*
-    Formato en el .csv
-    ID,Activo,Nombre,Especialidad
-*/
-
 public class persistenciaVeterinario {
     private static Path archivo;
     
@@ -38,7 +33,6 @@ public class persistenciaVeterinario {
         return String.join(",", camposVeterinario);
     }
     
-    // Retorna verdadero si no pudo actualizar el veterinario
     public static boolean actualizarVeterinario(Veterinario veterinario) {
         List<String> lineas;
 
@@ -66,7 +60,6 @@ public class persistenciaVeterinario {
         return agregarVeterinario(veterinario);
     }
 
-    // Retrona verdadero si no pudo agregar el veterinario
     public static boolean agregarVeterinario(Veterinario veterinario) {
         List<String> lineas;
         try {
@@ -86,14 +79,13 @@ public class persistenciaVeterinario {
         return false;
     }
 
-    // Retorna una lista vacia si no pudo obtener los veterinarios
     public static LinkedList<Veterinario> obteniendoVeterinarios() {
         List<String> lineas;
 
         try {
             lineas = Files.readAllLines(archivo);
         } catch (Exception e) {
-            return new LinkedList<Veterinario>();
+            return new LinkedList<>();
         }
 
         LinkedList<Veterinario> veterinarios = new LinkedList<Veterinario>();

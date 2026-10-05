@@ -8,11 +8,6 @@ import java.time.LocalDateTime;
 
 import veterinaria.entidades.*;
 
-/*
-    Formato en el .csv
-    ID,FechaHora,Motivo,Diagnostico,Tratamiento,IDMascota,IDVeterinario
-*/
-
 public class persistenciaConsulta {
     private static Path archivoHistorico;
     private static Path archivoAgendado;
@@ -50,7 +45,6 @@ public class persistenciaConsulta {
         return String.join(",", camposConsulta);
     }
 
-    // Retorna verdadero si no puede actualizar la consulta
     public static boolean actualizarConsulta(Consulta consulta) {
         List<String> lineas;
         try {
@@ -77,7 +71,6 @@ public class persistenciaConsulta {
         return agregarConsulta(consulta);
     }
 
-    // Retorna verdadero si no puede agregar la consulta
     public static boolean agregarConsulta(Consulta consulta) {
         List<String> lineas;
         try {
@@ -97,7 +90,6 @@ public class persistenciaConsulta {
         return false;
     }
 
-    // Retorna verdadero si no puede eliminar la consulta
     public static boolean eliminarConsulta(Consulta consulta) {
         List<String> lineas;
         try {
@@ -123,7 +115,6 @@ public class persistenciaConsulta {
         return true;
     }
 
-    // Retorna una lista vacia si no puede obtener las consultas
     public static LinkedList<Consulta> obtenerConsultasAgendadas(ArrayList<Integer> mascotasIDs, ArrayList<Integer> veterinariosIDs) {
         List<String> lineas;
         try {
@@ -147,7 +138,6 @@ public class persistenciaConsulta {
         return consultas;
     }
 
-    // Retorna una lista vacia si no puede obtener las consultas
     public static LinkedList<Consulta> obtenerConsultasHistoricas(ArrayList<Integer> mascotasIDs, ArrayList<Integer> veterinariosIDs) {
         List<String> lineas;
         try {
@@ -171,7 +161,6 @@ public class persistenciaConsulta {
         return consultas;
     }
 
-    // Retorna verdadero si no se pudo mover la consulta al historico
     public static boolean moverAHistorico(Consulta consulta) {
         if(eliminarConsulta(consulta))
             return true;

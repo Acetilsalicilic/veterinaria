@@ -1,12 +1,10 @@
 package veterinaria.entidades;
 
-import veterinaria.herramientas.HerramientasVeterinario;
-
 import java.time.LocalDateTime;
 
 public class Consulta {
 	private static int ultimoId = 0;
-	private int id;
+	private final int id;
 	private LocalDateTime fechaYHora;
 	private String motivo;
 	private String diagnóstico;
@@ -26,6 +24,7 @@ public class Consulta {
 			this.veterinario = new Veterinario("", "");
 		else
 			this.veterinario = veterinario;
+		ultimoId = Integer.max(id, ultimoId) + 1;
 	}
 
 	@Override

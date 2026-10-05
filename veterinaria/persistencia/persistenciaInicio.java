@@ -1,6 +1,5 @@
 package veterinaria.persistencia;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -67,8 +66,6 @@ public class persistenciaInicio {
                     break;
                 }
             }
-//            if(consulta.getVeterinario() == null || consulta.getMascota() == null)
-//                consultasNoEnctontradas.add(consulta);
             if (consulta.getMascota() == null)
                 consultasNoEnctontradas.add(consulta);
         }

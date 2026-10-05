@@ -6,11 +6,6 @@ import java.util.List;
 
 import veterinaria.entidades.*;
 
-/*
-    Formato en el .csv
-    ID,Activo,Nombre,Telefono,Direccion,TelefonoDeEmergencia,NobmreDeEmergencia
-*/
-
 public class persistenciaDueño {
     private static Path archivo;
 
@@ -42,7 +37,6 @@ public class persistenciaDueño {
         return String.join(",", camposDueño);
     }
 
-    // Retorna verdadero si no se puede actualizar el Dueño
     public static boolean actualizarDueño(Dueño dueño) {
         List<String> lineas;
         try {
@@ -69,7 +63,6 @@ public class persistenciaDueño {
         return agregarDueño(dueño);
     }
 
-    // Retorna verdadero si no se puede registrar el Dueño
     public static boolean agregarDueño(Dueño dueño) {
         List<String> lineas;
 
@@ -90,7 +83,6 @@ public class persistenciaDueño {
         return false;
     }
 
-    // Retorna una lista vacia si no pudo obtener los dueños
     public static LinkedList<Dueño> obteniendoDueños() {
         List<String> lineas;
 

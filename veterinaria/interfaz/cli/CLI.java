@@ -30,7 +30,6 @@ public class CLI {
 			int opt = sc.nextInt();
 			sc.nextLine();
 			
-			// Menu
 			switch (opt) {
 				case 0 -> exit = true;
 				case 1 -> {

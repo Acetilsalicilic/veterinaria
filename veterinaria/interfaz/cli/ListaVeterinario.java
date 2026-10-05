@@ -131,9 +131,8 @@ public class ListaVeterinario extends SubMenu {
         int opt = sc.nextInt();
         sc.nextLine();
 
-        boolean salir = false;
         switch (opt) {
-            case 0 -> salir = true;
+            case 0 -> {}
             case 1 -> {
                 System.out.printf("%s: %s\n", "ID", vet.getId());
                 System.out.printf("%s: %s\n", "Nombre", vet.getNombre());

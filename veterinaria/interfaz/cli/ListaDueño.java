@@ -100,9 +100,8 @@ public class ListaDueño extends SubMenu {
 		int opt = sc.nextInt();
 		sc.nextLine();
 		
-		boolean salir = false;
 		switch (opt) {
-			case 0 -> salir = true;
+			case 0 -> {}
 			case 1 -> acciónMostrarDetalleDueño(dueño);
 			case 2 -> HerramientasDueño.modificarDueño(sc, dueño);
 			case 3 -> HerramientasDueño.bajaDueño(dueño);
@@ -111,9 +110,6 @@ public class ListaDueño extends SubMenu {
 			}
             default -> System.out.println(mensajeOpcionInválida);
 		}
-		
-		if (salir)
-			return;
 	}
 	
 	private void imprimirTabla(List<Dueño> dueños) {

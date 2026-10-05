@@ -8,11 +8,6 @@ import java.util.List;
 
 import veterinaria.entidades.*;
 
-/*
-    Formato en el .csv
-    ID,activo,nombre,especie,raza,fechanacimiento,IDdueño
-*/
-
 public class persistenciaMascota {
     private static Path archivo;
 
@@ -29,7 +24,7 @@ public class persistenciaMascota {
             return null;
         }
 
-        return new Mascota(Integer.valueOf(datos[0]), Boolean.valueOf(datos[1]), datos[2], datos[3], datos[4], LocalDate.parse(datos[5]));
+        return new Mascota(Integer.parseInt(datos[0]), Boolean.parseBoolean(datos[1]), datos[2], datos[3], datos[4], LocalDate.parse(datos[5]));
     }
 
     private static String mascotaObjetoAString(Mascota mascota) {
@@ -45,7 +40,6 @@ public class persistenciaMascota {
         return String.join(",", camposMascota);
     }
 
-    // Retorna verdadero si no pudo actualizar a la mascota
     public static boolean actualizarMascota(Mascota mascota){
         List<String> lineas;
         try {
@@ -72,7 +66,6 @@ public class persistenciaMascota {
         return agregarMascota(mascota);
     }
 
-    // Retorna verdadero si no pudo agregar a la mascota
     public static boolean agregarMascota(Mascota mascota) {
         List<String> lineas;
         try {
@@ -92,7 +85,6 @@ public class persistenciaMascota {
         return false;
     }
 
-    // Retorna una lista vacia si no pudo leer el archivo de persistencia
     public static LinkedList<Mascota> obteniendoMascotas(ArrayList<Integer> dueñosIDs) {
         List<String> lineas;
         try {

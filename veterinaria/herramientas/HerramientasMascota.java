@@ -56,7 +56,7 @@ public class HerramientasMascota {
         System.out.println("Mascota registrada exitosamente :D");
     }
 
-    public static void bajaMascota(Scanner scanner, Mascota mascotaBaja){
+    public static void bajaMascota(Mascota mascotaBaja){
         mascotaBaja.setActivo(false);
 
         System.out.println("Baja exitosa");

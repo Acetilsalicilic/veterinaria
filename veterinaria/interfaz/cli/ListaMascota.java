@@ -6,7 +6,6 @@ import veterinaria.herramientas.HerramientasConsultas;
 import veterinaria.herramientas.HerramientasMascota;
 import veterinaria.utiles.Campo;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
@@ -160,7 +159,7 @@ public class ListaMascota extends SubMenu {
             case 0 -> salir = true;
             case 1 -> acciónMostrarDetalleMascota(mascota);
             case 2 -> HerramientasMascota.modificarMascota(sc, mascota);
-            case 3 -> HerramientasMascota.bajaMascota(sc, mascota);
+            case 3 -> HerramientasMascota.bajaMascota(mascota);
             case 4 -> { new ListaConsulta(sc, formatoPrompt, waiting, mensajeOpcionInválida, mascota).iniciar(); }
             default -> System.out.println(mensajeOpcionInválida);
         }

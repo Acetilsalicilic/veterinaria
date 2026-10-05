@@ -3,20 +3,18 @@ package veterinaria.entidades;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.HashSet;
-import java.util.HashSet;
 import java.util.Set;
 
 public class Dueño {
 	private static int ultimoId = 0;
-	private int id;
+	private final int id;
 	private boolean activo;
 	private String nombre;
 	private String teléfono;
 	private String dirección;
 	private String telefonoDeEmergencia;
 	private String nombreDeEmergencia;
-	private Set<Mascota> mascotas;
+	private final Set<Mascota> mascotas;
 
 	public Dueño(int id, boolean activo, String nombre, String teléfono, String dirección, String telefonoDeEmergencia, String nombreDeEmergencia)
 	{
@@ -74,10 +72,6 @@ public class Dueño {
 
 	public Set<Mascota> getMascotas() {
 		return mascotas;
-	}
-
-	public void agregarMascota(Mascota mascota) {
-		mascotas.add(mascota);
 	}
 
 	public void setNombre(String nombre) {

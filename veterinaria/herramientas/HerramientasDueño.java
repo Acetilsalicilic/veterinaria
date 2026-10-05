@@ -2,20 +2,14 @@ package veterinaria.herramientas;
 
 import java.util.LinkedList;
 import veterinaria.entidades.Dueño;
-import veterinaria.entidades.Mascota;
 import veterinaria.persistencia.persistenciaDueño;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
 public class HerramientasDueño {
     private static final List <Dueño> dueños = new ArrayList<>();
-
-    public static void internoCrearDueño(Dueño d) {
-        dueños.add(d);
-    }
 
     public static void internoSetDueños(List<Dueño> dueños) {
         HerramientasDueño.dueños.addAll(dueños);

@@ -6,7 +6,7 @@ import java.time.temporal.ChronoUnit;
 
 public class Mascota {
 	private static int ultimoId = 0;
-	private int id;
+	private final int id;
 	private boolean activo;
 	private String nombre;
 	private String especie;

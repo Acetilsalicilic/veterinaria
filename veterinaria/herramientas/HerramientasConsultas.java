@@ -5,7 +5,6 @@ import veterinaria.entidades.Mascota;
 import veterinaria.entidades.Veterinario;
 import veterinaria.persistencia.persistenciaConsulta;
 
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -45,7 +44,6 @@ public class HerramientasConsultas {
         System.out.println("Consulta para "+mascota.getNombre());
         boolean bandera=true;
         LocalDateTime cita = null;
-        //scanner.nextLine();
         while (bandera){
             System.out.println("Cuando quiere su cita? dd/mm/yy ");
             String fecha=scanner.nextLine();

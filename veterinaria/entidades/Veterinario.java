@@ -9,7 +9,7 @@ public class Veterinario {
 	private boolean activo;
 	private String nombre;
 	private String especialidad;
-	private List<Consulta> consultas;
+	private final List<Consulta> consultas;
 
 	public Veterinario(int id, boolean activo, String nombre, String especialidad) {
 		this.id = id;
@@ -59,13 +59,5 @@ public class Veterinario {
 
 	public void setEspecialidad(String especialidad) {
 		this.especialidad = especialidad;
-	}
-
-	public List<Consulta> getConsultas() {
-		return consultas;
-	}
-
-	public void setConsultas(List<Consulta> consultas) {
-		this.consultas = consultas;
 	}
 }
