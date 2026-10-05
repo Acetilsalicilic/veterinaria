@@ -16,7 +16,7 @@ public class persistenciaMascota {
     }
 
     private static Mascota mascotaStringAObjeto(String strMascota) {
-        String[] datos = strMascota.split(",", -1);
+        String[] datos = strMascota.split("\\|", -1);
 
         if(datos.length < 7)
         {
@@ -37,7 +37,7 @@ public class persistenciaMascota {
         camposMascota.add(String.valueOf(mascota.getFechaNacimiento()));
         camposMascota.add(String.valueOf(mascota.getDueño().getId()));
 
-        return String.join(",", camposMascota);
+        return String.join("|", camposMascota);
     }
 
     public static boolean actualizarMascota(Mascota mascota){
@@ -49,7 +49,7 @@ public class persistenciaMascota {
         }
         
         for(int i = 0; i < lineas.size(); i++) {
-            String[] datos = lineas.get(i).split(",", -1);
+            String[] datos = lineas.get(i).split("\\|", -1);
             if(Integer.valueOf(datos[0]) == mascota.getId()) {
                 lineas.set(i, mascotaObjetoAString(mascota));
                 
@@ -100,7 +100,7 @@ public class persistenciaMascota {
             if(nuevaMascota != null)
             {
                 mascotas.add(nuevaMascota);
-                String[] datos = linea.split(",", -1);
+                String[] datos = linea.split("\\|", -1);
                 dueñosIDs.add(Integer.valueOf(datos[6]));
             }
         }

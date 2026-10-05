@@ -14,7 +14,7 @@ public class persistenciaVeterinario {
     }
 
     private static Veterinario veterinarioStringAObjecto(String strVeterinario) {
-        String[] datos = strVeterinario.split(",", -1);
+        String[] datos = strVeterinario.split("\\|", -1);
 
         if(datos.length < 4) {
             System.err.println("Formato invalido");
@@ -30,7 +30,7 @@ public class persistenciaVeterinario {
         camposVeterinario.add(String.valueOf(veterinario.isActivo()));
         camposVeterinario.add(veterinario.getNombre());
         camposVeterinario.add(veterinario.getEspecialidad());
-        return String.join(",", camposVeterinario);
+        return String.join("|", camposVeterinario);
     }
     
     public static boolean actualizarVeterinario(Veterinario veterinario) {
@@ -43,7 +43,7 @@ public class persistenciaVeterinario {
         }
         
         for(int i = 0; i < lineas.size(); i++) {
-            String[] datos = lineas.get(i).split(",", -1);
+            String[] datos = lineas.get(i).split("\\|", -1);
             if(Integer.valueOf(datos[0]) == veterinario.getId()) {
                 lineas.set(i, veterinarioObjetoAString(veterinario));
 

@@ -21,7 +21,7 @@ public class persistenciaConsulta {
     }
 
     private static Consulta consultaStringAObjeto(String strConsulta) {
-        String[] datos = strConsulta.split(",", -1);
+        String[] datos = strConsulta.split("\\|", -1);
 
         if(datos.length < 7)
         {
@@ -42,7 +42,7 @@ public class persistenciaConsulta {
         camposConsulta.add(String.valueOf(consulta.getMascota().getId()));
         camposConsulta.add(String.valueOf(consulta.getVeterinario().getId()));
 
-        return String.join(",", camposConsulta);
+        return String.join("|", camposConsulta);
     }
 
     public static boolean actualizarConsulta(Consulta consulta) {
@@ -54,7 +54,7 @@ public class persistenciaConsulta {
         }
         
         for(int i = 0; i < lineas.size(); i++) {
-            String[] datos = lineas.get(i).split(",", -1);
+            String[] datos = lineas.get(i).split("\\|", -1);
             if(Integer.valueOf(datos[0]) == consulta.getId()) {
                 lineas.set(i, consultaObjetoAString(consulta));
 
@@ -99,7 +99,7 @@ public class persistenciaConsulta {
         }
         
         for(int i = 0; i < lineas.size(); i++) {
-            String[] datos = lineas.get(i).split(",", -1);
+            String[] datos = lineas.get(i).split("\\|", -1);
             if(Integer.valueOf(datos[0]) == consulta.getId()) {
                 lineas.remove(i);
                 
@@ -129,7 +129,7 @@ public class persistenciaConsulta {
             Consulta nuevaConsulta = consultaStringAObjeto(linea);
             if(nuevaConsulta != null) {
                 consultas.add(nuevaConsulta);
-                String[] datos = linea.split(",", -1);
+                String[] datos = linea.split("\\|", -1);
                 mascotasIDs.add(Integer.valueOf(datos[5]));
                 veterinariosIDs.add(Integer.valueOf(datos[6]));
             }
@@ -152,7 +152,7 @@ public class persistenciaConsulta {
             Consulta nuevaConsulta = consultaStringAObjeto(linea);
             if(nuevaConsulta != null) {
                 consultas.add(nuevaConsulta);
-                String[] datos = linea.split(",", -1);
+                String[] datos = linea.split("\\|", -1);
                 mascotasIDs.add(Integer.valueOf(datos[5]));
                 veterinariosIDs.add(Integer.valueOf(datos[6]));
             }

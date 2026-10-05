@@ -14,7 +14,7 @@ public class persistenciaDueño {
     }
 
     private static Dueño dueñoStringAObjecto(String strDueño) {
-        String[] datos = strDueño.split(",", -1);
+        String[] datos = strDueño.split("\\|", -1);
 
         if(datos.length < 7) {
             System.err.println("Formato invalido");
@@ -34,7 +34,7 @@ public class persistenciaDueño {
         camposDueño.add(dueño.getTelefonoDeEmergencia());
         camposDueño.add(dueño.getNombreDeEmergencia());
 
-        return String.join(",", camposDueño);
+        return String.join("|", camposDueño);
     }
 
     public static boolean actualizarDueño(Dueño dueño) {
@@ -46,7 +46,7 @@ public class persistenciaDueño {
         }
         
         for(int i = 0; i < lineas.size(); i++) {
-            String[] datos = lineas.get(i).split(",", -1);
+            String[] datos = lineas.get(i).split("\\|", -1);
             if(Integer.valueOf(datos[0]) == dueño.getId()) {
                 lineas.set(i, dueñoObjetoAString(dueño));
                 
